@@ -1,4 +1,4 @@
-import re, sys, json
+import re, sys, json, os
 import time, random#, testlink
 import openpyxl
 from datetime import datetime
@@ -10,15 +10,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
-from random import choice
+from random import choice, randint
 import pathlib
 from pathlib import Path
-import os
 from sys import platform
 import MN_function
+from framework_sample import *
 
 chrome_options = webdriver.ChromeOptions()
-
 
 #result=open(os.path.dirname(Path(__file__).absolute())+'\\result.txt','w')
 
@@ -32,10 +31,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-#testcase_fail = bcolors.FAIL + ">>> Test case status: fail" + bcolors.ENDC
-#testcase_pass = bcolors.OKGREEN + ">>> Test case status: pass" + bcolors.ENDC
-
-#print(json_file)
 class objects:
     now = datetime.now()
     year = now.strftime("%Y")
@@ -59,9 +54,6 @@ if platform == "linux" or platform == "linux2":
     fail_log = execution_log.replace("execution_log_", "fail_log_")
     error_log = execution_log.replace("execution_log_", "error_log_")
     testcase_log = local_path + log_testcase + "MN_testcase_result_" + str(objects.date_id) + ".xlsx"
-
-    #import common_functions
-    #driver = common_functions.driver
     
 else:
     #local_path = "D:\\Ngoc\\ngoc_automationtest"
@@ -120,8 +112,6 @@ def ValidateFailResultAndSystem(fail_msg):
     append_fail_result.close()
 
 def TestCase_LogResult(menu, sub_menu, testcase, status, description, tester):
-    #Logging(description)
-
     if status == "Pass":
         print(objects.testcase_pass)
     else:
@@ -140,17 +130,6 @@ def TestCase_LogResult(menu, sub_menu, testcase, status, description, tester):
     current_sheet.cell(row=start_row, column=7).value = tester
 
     wb.save(testcase_log)
-
-'''TESTLINK_API_PYTHON_SERVER_URL= 'http://qa1.hanbiro.net/testlink/lib/api/xmlrpc/v1/xmlrpc.php'
-TESTLINK_API_PYTHON_DEVKEY= 'e80ce28cbff80bd624cc2679c915596d'
-
-tls = testlink.TestLinkHelper(TESTLINK_API_PYTHON_SERVER_URL, TESTLINK_API_PYTHON_DEVKEY).connect(testlink.TestlinkAPIClient)
-
-def TestlinkResult_Pass(external_id):
-    tls.reportTCResult(testcaseexternalid=external_id, testplanid=7377, buildname="v3.8.46", status='p', notes='Test Case [' + external_id + '] passed')
-
-def TestlinkResult_Fail(external_id):
-    tls.reportTCResult(testcaseexternalid=external_id, testplanid=7377, buildname="v3.8.46", status='f', notes='Test Case [' + external_id + '] failed')'''
 
 def access_qa(domain):
     driver.get(domain)

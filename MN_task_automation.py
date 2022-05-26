@@ -1,5 +1,5 @@
 import re, sys, json
-import time, random#, testlink
+import time, random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -12,7 +12,7 @@ from random import choice
 from pathlib import Path
 import os
 
-from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult#, #TestlinkResult_Fail, #TestlinkResult_Pass
+from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
@@ -23,7 +23,7 @@ m = random.randint(1,10000)
 def work_diary():
     #Chờ xuất hiện danh sách work
     Logging("+++ WORK DIARY +++")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Work_Diary"]["setting_workdiary"]))).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["setting_workdiary"])
     Logging("- Setting folder")
     
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "diary_setting_form")))
@@ -41,8 +41,8 @@ def work_diary():
             Logging("- Close ORG")
         except:
             pass
-
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["button_save"][1]).click()
+    
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][1])
     Logging("- Save folder")
 
     time.sleep(2)
@@ -50,7 +50,6 @@ def work_diary():
     folder_name.click()
     Logging("=> Add folder successfully")
     TestCase_LogResult(**data["testcase_result"]["work_diary"]["add_folder"]["pass"])
-    #TestlinkResult_Pass("WUI-78")
 
     return input_name
 
@@ -69,16 +68,14 @@ def workdiary_execution():
     else:
         Logging("=> Add folder fail")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["add_folder"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Task - Work diary] Create folder fail</div>")
-        #TestlinkResult_Fail("WUI-78")
 
 def share_folder():
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["share"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["share"])
     Logging("- Click button Share")
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["permit_write"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["permit_write"])
     Logging("- Select permit write")    
 
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["invite_user"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["invite_user"])
     Logging("- Invite user")
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Work_Diary"]["list_ORG"])))
     Logging("- Organization list")
@@ -88,20 +85,20 @@ def share_folder():
     search_user.send_keys(Keys.RETURN)
     Logging("- Search Users")
     time.sleep(2)
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["user_1"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["user_1"])
     Logging("- Select user 1")
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["user_2"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["user_2"])
     Logging("- Select user 2")
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["plus_button"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["plus_button"])
     Logging("- Add button")
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["button_save"][0]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][0])
     Logging("- Save user")
 
 def delete_folder_workdiary(input_name):
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["delete_button"]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["delete_button"])
     Logging("- Delete button")
     time.sleep(2)
-    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//button[contains(.,'OK')]"))).click()
+    Wait20s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click OK")
     time.sleep(3)
 
@@ -109,12 +106,9 @@ def delete_folder_workdiary(input_name):
         folder_name = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Work_Diary"]["fol_name"] + str(input_name) + "')]")))
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["delete_folder"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Task - Work diary] Delete folder fail</div>")
-        #TestlinkResult_Fail("WUI-79")
     except:
         Logging("=> Delete folder successfully")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["delete_folder"]["pass"])
-        #TestlinkResult_Pass("WUI-79")
 
 def manage_folders():
     manage_folders = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(.,'Manage Folders ')]")))
@@ -127,7 +121,7 @@ def manage_folders():
     task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
     driver.find_element_by_xpath(data["TASK"]["Task_Report"]["folder_task_name"][0]).send_keys(task_name)
     Logging("- Input Folder name")
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["button_save"][2]).click()
+    Wait20s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
     Logging("- Save folder")
     time.sleep(3)
 
@@ -135,7 +129,6 @@ def manage_folders():
     folder_name.click()
     Logging("=> Create folder successfully")
     TestCase_LogResult(**data["testcase_result"]["task_report"]["add_folder"]["pass"])
-    #TestlinkResult_Pass("WUI-80")
 
     return task_name
 
@@ -154,8 +147,6 @@ def manager_folder_execution():
     else:
         Logging("=> Create folder fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["add_folder"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Task - Task report] Create folder fail</div>")
-        #TestlinkResult_Fail("WUI-80")  
 
 def delete_manage_folder(task_name):
     driver.find_element_by_xpath(data["TASK"]["Task_Report"]["delete_button"]).click()
