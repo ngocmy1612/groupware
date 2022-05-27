@@ -17,145 +17,313 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def Yellow(msg):
+def PrintYellow(msg):
     '''• Usage: Color msg in yellow'''
     
-    string_output = bcolors.WARNING + str(msg) + bcolors.ENDC
+    Logging(bcolors.WARNING + str(msg) + bcolors.ENDC)
 
-    return string_output
+    return msg
 
-def Green(msg):
+def PrintGreen(msg):
     '''• Usage: Color msg in green'''
     
-    string_output = bcolors.OKGREEN + str(msg) + bcolors.ENDC
+    Logging(bcolors.OKGREEN + str(msg) + bcolors.ENDC)
 
-    return string_output
+    return msg
 
-def Red(msg):
+def PrintRed(msg):
     '''• Usage: Color msg in red'''
     
-    string_output = bcolors.FAIL + str(msg) + bcolors.ENDC
+    Logging(bcolors.FAIL + str(msg) + bcolors.ENDC)
 
-    return string_output
+    return msg
 
-def WaitElementLoaded(time, xpath):
-    '''• Usage: Wait until element VISIBLE in a selected time period'''
+class Waits():
+    def WaitElementLoaded(time, xpath):
+        '''• Usage: Wait until element VISIBLE in a selected time period'''
+        
+        WebDriverWait(driver, time).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
+
+    def Wait10s_ElementLoaded(xpath):
+        '''• Usage: Wait 10s until element VISIBLE'''
+        
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
+
+    def WaitElementInvisibility(time, xpath):
+        '''• Usage: Wait until element INVISIBLE in a selected time period'''
+        
+        WebDriverWait(driver, time).until(EC.invisibility_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
+
+    def Wait10s_ElementInvisibility(xpath):
+        '''• Usage: Wait 10s until element INVISIBLE'''
+        
+        WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
     
-    WebDriverWait(driver, time).until(EC.presence_of_element_located((By.XPATH, xpath)))
+    def WaitUntilPageIsLoaded(page_xpath):
+        if bool(page_xpath) == True:
+            # wait until page's element is present
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, page_xpath)))
 
-def Wait10s_ElementLoaded(xpath):
-    '''• Usage: Wait 10s until element VISIBLE'''
+        # check if the loading icon is not present at the page -> page is completely loaded
+        try:
+            WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.XPATH, "//div[@class='loading-dialog hide']")))
+        except WebDriverException:
+            pass
+
+        '''If page_xpath=None/False -> only check if the loading icon is not present'''
+
+class Commands():
+    def FindElement(xpath):
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
+
+    def FindElements(xpath):
+        element = driver.find_elements_by_xpath(xpath)
+
+        return element
+
+    def ClickElement(xpath):
+        '''• Usage: Do the click on element
+                return WebElement'''
+
+        element = driver.find_element_by_xpath(xpath)
+        element.click()
+
+        return element
+
+    def ClickElements(xpath, element_position):
+        '''• Usage: Do the click on element
+                return WebElement'''
+
+        element = driver.find_elements_by_xpath(xpath)
+        element[element_position].click()
+
+        return element
+
+    def Wait10s_ClickElement(xpath):
+        '''• Usage: Wait until the element visible and do the click
+                return WebElement'''
+
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        element.click()
+
+        return element
+
+    def InputElement(xpath, value):
+        '''• Usage: Send key value in input box
+                return WebElement'''
+
+        element = driver.find_element_by_xpath(xpath)
+        element.send_keys(value)
+
+        return element
     
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+    def InputElement_2Values(xpath, value1, value2):
+        '''• Usage: Send key with 2 values in input box
+                return WebElement'''
 
-def WaitElementInvisibility(time, xpath):
-    '''• Usage: Wait until element INVISIBLE in a selected time period'''
+        element = driver.find_element_by_xpath(xpath)
+        element.send_keys(value1)
+        element.send_keys(value2)
+
+        return element
+
+    def Wait10s_InputElement(xpath, value):
+        '''• Usage: Wait until the input box visible and send key value
+                return WebElement'''
+
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        element.send_keys(value)
+
+        return element
     
-    WebDriverWait(driver, time).until(EC.invisibility_of_element_located((By.XPATH, xpath)))
+    def SwitchToFrame(frame_xpath):
+        WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.XPATH, frame_xpath)))
+        frame = Commands.FindElement(frame_xpath)
+        driver.switch_to.frame(frame)
 
-def Wait10s_ElementInvisibility(xpath):
-    '''• Usage: Wait 10s until elementIN VISIBLE'''
+        return frame
     
-    WebDriverWait(driver, 10).until(EC.invisibility_of_element_located((By.XPATH, xpath)))
+    def SwitchToDefaultContent():
+        driver.switch_to.default_content()
 
-def GetListLength(xpath):
-    '''• Usage: Count how many elements are visible
-            return a number int()'''
+    def ScrollDown():
+        '''• Usuage: Scroll down, default height (0,-301)'''
+        
+        driver.execute_script("window.scrollTo(0,300)")
+    
+    def ScrollUp():
+        '''• Usuage: Scroll down, default height (300,0)'''
+        
+        driver.execute_script("window.scrollTo(301, 0)")
+    
+    def Selectbox_ByValue(xpath, value):
+        '''• Usage: Wait until select box is loaded
+                select by value, return select box
+                value = str()'''
 
-    list_length = int(len(driver.find_elements_by_xpath(xpath)))
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        Select(element).select_by_value(value)
 
-    return list_length
+        return element
+    
+    def Selectbox_ByIndex(xpath, index_number):
+        '''• Usage: Wait until select box is loaded
+                select by the index, return select box
+                index_number = int()'''
 
-def ClickElement(xpath):
-    '''• Usage: Do the click on element
-            return WebElement'''
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        Select(element).select_by_index(index_number)
 
-    element = driver.find_element_by_xpath(xpath)
-    element.click()
+        return element
+    
+    def Selectbox_ByVisibleText(xpath, selected_text):
+        '''• Usage: Wait until select box is loaded
+                select by visible text, return select box
+                visible text = str()'''
 
-    return element
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        Select(element).select_by_index(selected_text)
 
-def Wait20s_ClickElement(xpath):
-    '''• Usage: Wait until the element visible and do the click
-            return WebElement'''
+        return element
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, xpath)))
-    element = driver.find_element_by_xpath(xpath)
-    element.click()
+    def MoveToElement(xpath):
+        '''• Usage: Move to view element by ActionChains
+                return WebElement'''
 
-    return element
+        element = driver.find_element_by_xpath(xpath)
+        actions = ActionChains(driver)
+        actions.move_to_element(element)
+        actions.perform()
+        time.sleep(1)
 
-def InputElement(xpath, value):
-    '''• Usage: Send key value in input box
-            return WebElement'''
+        return element
 
-    element = driver.find_element_by_xpath(xpath)
-    element.send_keys(value)
+class Functions():
+    def GetElementText(xpath):
+        '''• Usage: Get and return element_text as str()'''
 
-    return element
+        element_text = str(driver.find_element_by_xpath(xpath).text)
 
-def Wait10s_InputElement(xpath, value):
-    '''• Usage: Wait until the input box visible and send key value
-            return WebElement'''
+        return element_text
+    
+    def GetInputValue(xpath):
+        '''• Usage: Get and return input_value as str()
+                 Use this function if element is input box'''
 
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
-    element = driver.find_element_by_xpath(xpath)
-    element.send_keys(value)
+        input_element = driver.find_element_by_xpath(xpath)
+        input_value = str(input_element.get_attribute("value"))
 
-    return element
+        return input_value
+    
+    def GetElementAttribute(xpath, attribute):
+        '''• Usage: Get and return element_attribute as str()
+                        (attribute can be value of 'class', 'style'... '''
 
-def getRandomNumber_fromSpecificRange(assigned_range):
-    '''• Usage: Get a list of random numbers
-            return a number int()'''
+        element = driver.find_element_by_xpath(xpath)
+        element_attribute = str(element.get_attribute(attribute))
 
-    random_number = random(randint(range(assigned_range)))
+        return element_attribute
 
-    return random_number
+    def GetListLength(xpath):
+        '''• Usage: Count how many elements are visible
+                return a number int()'''
 
-def getRandomList_fromSpecificRange(picked_numbers, assigned_range):
-    '''• Usage: Get a list of random numbers and remove duplicated number
-            return a list()'''
+        list_length = int(len(driver.find_elements_by_xpath(xpath)))
 
-    random_number = random(randint(range(assigned_range)))
+        return list_length
+    
+    def xpath_ConvertXpath(xpath, replaced_value):
+        '''• Usage: xpath which is being used must be written in style 'replaced_text'
+                return str()'''
 
-    random_list = []
-    i=1
-    for i in range(assigned_range):
+        if type(replaced_value) == int():
+            '''It's used to define the order number of element
+                        E.g: xpath + "[" + str(i) + "]" '''
+                        # i=int()
+            element_xpath = str(xpath).replace("order_number", str(replaced_value))
+        
+        elif type(replaced_value) == str():
+            ''' It's used to replace the text in xpath
+                        E.g: xpath = xpath + [contains(., 'replaced_text')] '''
+                        # replaced_text=str()
+            element_xpath = str(xpath).replace("replaced_text", str(replaced_value))
+        
+        else:
+            print("replaced_value must be str() or int()")
+
+        return element_xpath
+
+    def getRandomNumber_fromSpecificRange(assigned_range):
+        '''• Usage: Get a list of random numbers
+                return a number int()'''
+
+        random_number = int(random(randint(range(assigned_range))))
+
+        return random_number
+
+    def getRandomList_fromSpecificRange(picked_numbers, assigned_range):
+        '''• Usage: Get a list of random numbers and remove duplicated number
+                return a list()'''
+
         random_number = random(randint(range(assigned_range)))
-        random_list.append(random_number)
+
+        random_list = []
+        i=1
+        for i in range(assigned_range):
+            random_number = random(randint(range(assigned_range)))
+            random_list.append(random_number)
+            
+            random_list = list(dict.fromkeys(random_list))
+            if len(random_list) == picked_numbers:
+                break
+            
+            i+=1 
+
+        return random_list
+
+    def RemoveDuplicate_fromList(selected_list):
+        '''• Usage: Remove duplicated items in the assigned list
+                return the assigned list without duplicated item'''
         
-        random_list = list(dict.fromkeys(random_list))
-        if len(random_list) == picked_numbers:
-            break
+        selected_list = list(dict.fromkeys(selected_list))
+
+        return selected_list
+
+    def checkIf_ElementVisible(xpath):
+        '''• Usage: check element is visible
+                    return True if element is visible'''
         
-        i+=1 
+        try:
+            driver.find_element_by_xpath(xpath)
+            return True
+        except WebDriverException:
+            return False
 
-    return random_list
-
-def RemoveDuplicate_fromList(selected_list):
-    '''• Usage: Remove duplicated items in the assigned list
-            return the assigned list without duplicated item'''
-    
-    selected_list = list(dict.fromkeys(selected_list))
-
-    return selected_list
-
-def checkIf_ElementVisible(xpath):
-    '''• Usage: check element is visible
-                return True if element is visible'''
-    
-    try:
-        driver.find_element_by_xpath(xpath)
-        return True
-    except WebDriverException:
-        return False
-
-def waitIf_ElementVisible(xpath):
-    '''• Usage: Wait 10s until element is visible
-                return True if element is visible'''
-    
-    try:
-        Wait10s_ElementLoaded(xpath)
-        return True
-    except WebDriverException:
-        return False
+    def waitIf_ElementVisible(xpath):
+        '''• Usage: Wait 10s until element is visible
+                    return True if element is visible'''
+        
+        try:
+            Waits.Wait10s_ElementLoaded(xpath)
+            return True
+        except WebDriverException:
+            return False
