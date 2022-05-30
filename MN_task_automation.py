@@ -30,7 +30,7 @@ def work_diary():
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "diary_setting_form")))
     Logging("- Wait add folder")
     input_name = data["TASK"]["Work_Diary"]["folder_name"] + str(n)
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["input_folder_name"]).send_keys(input_name)
+    Commands.InputElement(data["TASK"]["Work_Diary"]["input_folder_name"], input_name)
     Logging("- Input Folder name")
     time.sleep(5)
     
@@ -176,7 +176,7 @@ def set_recipients():
     Logging("- Click Add button")
     time.sleep(2)
     input_group = data["TASK"]["Task_Report"]["name_group"] + str(n)
-    driver.find_element_by_xpath(data["TASK"]["Task_Report"]["recipients_group"]).send_keys(input_group)
+    Commands.InputElement(data["TASK"]["Task_Report"]["recipients_group"], input_group)
     Logging("- Input name group")
 
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["recipients_ORG"])
@@ -250,7 +250,7 @@ def write_task_report(input_group,add_list):
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["wait_editor"])))
 
     title = data["TASK"]["Task_Report"]["task_title"] + str(m)
-    driver.find_element_by_xpath(data["TASK"]["Task_Report"]["input_title"]).send_keys(title)
+    Commands.InputElement(data["TASK"]["Task_Report"]["input_title"], title)
     Logging("- Input title")
 
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["recipients"])
@@ -325,7 +325,7 @@ def create_folder():
     WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID, "task-tab-content")))
     Logging("- Wait add folder")
     task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
-    driver.find_element_by_xpath(data["TASK"]["Task_Report"]["folder_task_name"][1]).send_keys(task_name)
+    Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][1], task_name)
     Logging("- Input Folder name")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
     Logging("- Save folder")
@@ -357,8 +357,7 @@ def auto_sort():
 
 def create_auto_sort():
     name_sort = data["TASK"]["Task_Report"]["word_sort"]
-    input_word = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["input_word"])))
-    input_word.send_keys(name_sort)
+    Commands.Wait10s_InputElement(data["TASK"]["Task_Report"]["input_word"], name_sort)
     Logging("- Input word sort")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][2])
     Logging("- Save auto sort")

@@ -1,5 +1,5 @@
 import re, sys, json
-import time, random#, testlink
+import time, random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -13,13 +13,12 @@ from datetime import datetime
 from pathlib import Path
 import os
 
-from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult#, #TestlinkResult_Fail, #TestlinkResult_Pass
+from framework_sample import *
+
+from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
-
-#chrome_path = os.path.dirname(Path(__file__).absolute())+"\\chromedriver.exe"
-#result=open(os.path.dirname(Path(__file__).absolute())+'\\result.txt','a')
 
 now = datetime.now()
 date = now.strftime("%m/%d/%y %H:%M:%S")
@@ -27,32 +26,29 @@ date = now.strftime("%m/%d/%y %H:%M:%S")
 purpose_name = data["EXPENSE"]["ADMIN"]["name_purpose1"] + date
 
 def settings_expense():
-    driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["settings_expense"]).click()
+    Commands.ClickElement(data["EXPENSE"]["SETTINGS"]["settings_expense"])
     Logging("- Setting Expense")
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "writeFolder")))
     Logging("- Add folder")
     parent_name = data["EXPENSE"]["SETTINGS"]["parent_folder"] + str(n)
-    driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["folder_name"]).send_keys(parent_name)
+    Commands.InputElement(data["EXPENSE"]["SETTINGS"]["folder_name"], parent_name)
     Logging("- Input folder name")
     time.sleep(1)
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["SETTINGS"]["button_OK"][0]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["button_OK"][0])
     Logging("- Save Parent Folder")
 
-    last_expense_add = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")))
-    time.sleep(3)
-    last_expense_add.click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")
     Logging("=> Add folder expense Successfully")
     TestCase_LogResult(**data["testcase_result"]["expense"]["add_folder"]["pass"])
-    #TestlinkResult_Pass("WUI-144")
 
     return parent_name
 
 def delete_folder(parent_name):
-    driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["delete_button"]).click()
+    Commands.ClickElement(data["EXPENSE"]["SETTINGS"]["delete_button"])
     Logging("- Delete folder")
     time.sleep(2)
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["SETTINGS"]["button_OK"][1]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["button_OK"][1])
     Logging("- Click button OK")
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")))
     time.sleep(2)
@@ -62,12 +58,9 @@ def delete_folder(parent_name):
         if last_expense_del.is_displayed():
             Logging("=> Delete folder Fail")
             TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["fail"])
-            #ValidateFailResultAndSystem("<div>[Expense] Delete folder Fail</div>")
-            #TestlinkResult_Fail("WUI-145")
     except WebDriverException:
         Logging("=> Delete folder Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["pass"])
-        #TestlinkResult_Pass("WUI-145")
 
 def setting_execution():
     try:
@@ -84,11 +77,9 @@ def setting_execution():
     else:
         Logging("=> Add folder expense Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["add_folder"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Add folder expense Fail</div>")
-        #TestlinkResult_Fail("WUI-144")
 
 def admin():
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["admin"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["admin"])
     Logging("- Open menu Admin")
 
     try:
@@ -122,7 +113,7 @@ def admin():
         pass
 
 def set_manager():
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["set_manager"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["set_manager"])
     Logging("----------//---------- SET MANAGER ----------//----------")
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
@@ -130,11 +121,11 @@ def set_manager():
     list_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     Logging("=> Total list number: " + list_counter.text)
     list_counter_number = int(list_counter.text.split(" ")[1])
-    driver.find_element_by_xpath(data["write_button"][1]).click()
+    Commands.ClickElement(data["write_button"][1])
     Logging("- Write button")
     time.sleep(2)
 
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["select_manager"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["select_manager"])
     Logging("- Select manager from ORG")
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["list_ORG"])))
     Logging(">> Organization list")
@@ -144,13 +135,13 @@ def set_manager():
     search_user.send_keys(Keys.RETURN)
     Logging(">> Search Users")
     time.sleep(2)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["user_1"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["user_1"])
     Logging(">> Select user")
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["plus_button"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["plus_button"])
     Logging(">> Add button")
-    driver.find_element_by_xpath(data["EXPENSE"]["button_save"][0]).click()
+    Commands.ClickElement(data["EXPENSE"]["button_save"][0])
     Logging(">> Save user")
-    driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
+    Commands.ClickElement(data["EXPENSE"]["button_save"][1])
     Logging("=> Save Manager")
     time.sleep(2)
 
