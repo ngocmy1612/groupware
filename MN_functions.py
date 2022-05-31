@@ -15,7 +15,6 @@ import pathlib
 from pathlib import Path
 from sys import platform
 import MN_function
-from framework_sample import *
 
 chrome_options = webdriver.ChromeOptions()
 

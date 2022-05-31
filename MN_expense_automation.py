@@ -458,7 +458,7 @@ def delete_credit_card(owner,credit_counter_number):
 
     credit_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     credit_counter_update_number = int(credit_counter_update.text.split(" ")[1])
-    
+
     if credit_counter_number == credit_counter_update_number:
         Logging("=> Total list number update: " + credit_counter_update.text)
         Logging("=> Delete Credit card Successfully")

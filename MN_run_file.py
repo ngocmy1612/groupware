@@ -91,17 +91,17 @@ def My_Execution(domain_name):
         Logging(">>>> Cannot continue execution")
         pass
 
-    try:
-        MN_comanage_automation.comanage(domain_name)
-    except:
-        Logging(">>>> Cannot continue execution")
-        pass
+    # try:
+    #     MN_comanage_automation.comanage(domain_name)
+    # except:
+    #     Logging(">>>> Cannot continue execution")
+    #     pass
 
-    try:
-        MN_board_automation.board(domain_name)
-    except:
-        Logging(">>>> Cannot continue execution")
-        pass
+    # try:
+    #     MN_board_automation.board(domain_name)
+    # except:
+    #     Logging(">>>> Cannot continue execution")
+    #     pass
 
     try:
         MN_circular_automation.circular(domain_name)
@@ -113,8 +113,6 @@ def My_Execution(domain_name):
 #My_Execution("https://global3.hanbiro.com/ngw/app/#")
 
 My_Execution("http://qavn.hanbiro.net/ngw/app/#")
-
-
 
 
 def clockout_function():
