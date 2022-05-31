@@ -130,9 +130,7 @@ def set_manager():
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["list_ORG"])))
     Logging(">> Organization list")
     time.sleep(2)
-    search_user = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["user_keyword"])))
-    search_user.send_keys(data["name_keyword"][1])
-    search_user.send_keys(Keys.RETURN)
+    Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["user_keyword"], data["name_keyword"][1])
     Logging(">> Search Users")
     time.sleep(2)
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["user_1"])
@@ -180,9 +178,7 @@ def manager_execution():
         TestCase_LogResult(**data["testcase_result"]["expense"]["set_manager"]["fail"])
 
 def search_manager():
-    search = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["search"])
-    search.send_keys(data["name_keyword"][1])
-    search.send_keys(Keys.ENTER)
+    Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search"], data["name_keyword"][1])
     Logging("- Search user manager")
     
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
@@ -209,16 +205,13 @@ def delete_manager(list_search_number):
         Logging("=> Total list delete number update: " + list_delete_update.text)
         Logging("=> Delete manager Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_manager"]["pass"])
-        #TestlinkResult_Pass("WUI-188")
     else:
         Logging("=> Total list delete number update: " + list_delete_update.text)
         Logging("=> Delete manager Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_manager"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Delete manager Fail</div>")
-        #TestlinkResult_Fail("WUI-188")
 
 def purpose():
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["purpose"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["purpose"])
     Logging("----------//---------- PURPOSE ----------//----------")
     try:
         Logging("** Add Purpose 1 **")
@@ -228,7 +221,7 @@ def purpose():
         pass
 
     try:
-        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["purpose_2"]))).click()
+        Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["purpose_2"])
         Logging("** Add Purpose 2 **")
         add_purpose()
         Logging("")
@@ -236,7 +229,7 @@ def purpose():
         pass
 
     try:
-        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["purpose_3"]))).click()
+        Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["purpose_3"])
         Logging("** Add Purpose 3 **")
         add_purpose()
         Logging("")
@@ -249,7 +242,7 @@ def add_purpose():
     driver.find_element_by_xpath(data["write_button"][1]).click()
     Logging("- Write button")  
     time.sleep(2)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["input_name"]).send_keys(purpose_name)
+    Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], purpose_name)
     Logging("- Input purpose")
     driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
     Logging("=> Save Purpose")
@@ -260,7 +253,6 @@ def add_purpose():
         time.sleep(2)
         Logging("=> " + success.text)
         TestCase_LogResult(**data["testcase_result"]["expense"]["add_purpose"]["pass"])
-        #TestlinkResult_Pass("WUI-167")
         driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
         Logging("- Close pop up")
         time.sleep(2)
@@ -269,18 +261,14 @@ def add_purpose():
     except WebDriverException:
         Logging("=> Save Purpose Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["add_purpose"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Save Purpose Fail</div>")
-        #TestlinkResult_Fail("WUI-167")
 
 def delete_purpose():
-    search_purpose = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["search_general"])
+    Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search_general"], purpose_name)
     Logging("- Search Purpose")
-    search_purpose.send_keys(purpose_name)
-    search_purpose.send_keys(Keys.ENTER)
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
     time.sleep(2)
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["select_purpose"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["select_purpose"])
     Logging("- Select Purpose")
 
     purpose_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -303,16 +291,13 @@ def delete_purpose():
         Logging("=> Total list number update: " + purpose_counter_update.text)
         Logging("=> Delete Purpose Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_purpose"]["pass"])
-        #TestlinkResult_Pass("WUI-208")
     else:
         Logging("=> Total list number update: " + purpose_counter_update.text)
         Logging("=> Delete Purpose Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_purpose"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Delete Purpose Fail</div>")
-        #TestlinkResult_Fail("WUI-208")
 
 def payment_method():
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["payment_method"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["payment_method"])
     Logging("----------//---------- PAYMENT METHOD ----------//----------")
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
@@ -325,7 +310,7 @@ def payment_method():
     time.sleep(3)
 
     payment_method_name = data["EXPENSE"]["ADMIN"]["payment_name"] + str(m)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["input_name"]).send_keys(payment_method_name)
+    Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], payment_method_name)
     Logging("- Input Payment Method")
     driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
     Logging("=> Save Payment Method")
@@ -380,20 +365,17 @@ def delete_payment_method(payment_method_name,payment_counter_number):
         Logging("=> Total list number update: " + payment_counter_update.text)
         Logging("=> Delete Payment method Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_payment_method"]["pass"])
-        #TestlinkResult_Pass("WUI-169")
     else:
         Logging("=> Total list number update: " + payment_counter_update.text)
         Logging("=> Delete Payment method Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_payment_method"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Delete Payment method Fail</div>")
-        #TestlinkResult_Fail("WUI-169")
 
 def credit_card():
     my_list_bank = ["BIDV", "Agribank", "Shinhanbank", "Techcombank", "Sacombank"]
     Logging("LIST BANK: " + str(my_list_bank))
     num = random.randint(1,1000000000)
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["credit_card"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["credit_card"])
     Logging("----------//---------- CREDIT CARD ----------//----------")
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
@@ -406,12 +388,12 @@ def credit_card():
     time.sleep(2)
 
     bank_name = random.choice(my_list_bank)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["input_name"]).send_keys(bank_name)
+    Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], bank_name)
     Logging("- Input Bank name")
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["credit_card_number"]).send_keys(num)
+    Commands.InputElement(data["EXPENSE"]["ADMIN"]["credit_card_number"], num)
     Logging("- Input Credit Card Number")
     owner = "Auto " + str(n)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["credit_card_owner"]).send_keys(owner)
+    Commands.InputElement(data["EXPENSE"]["ADMIN"]["credit_card_owner"], owner)
     Logging("- Input Credit Card Owner")
     driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
     Logging("=> Save Credit Card")
@@ -463,16 +445,13 @@ def delete_credit_card(owner,credit_counter_number):
         Logging("=> Total list number update: " + credit_counter_update.text)
         Logging("=> Delete Credit card Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_credit_card"]["pass"])
-        #TestlinkResult_Pass("WUI-171")
     else:
         Logging("=> Total list number update: " + credit_counter_update.text)
         Logging("=> Delete Credit card Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_credit_card"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Delete Credit card Fail</div>")
-        #TestlinkResult_Fail("WUI-171")
 
 def currency():
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["currency"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["currency"])
     Logging("----------//---------- CURRENCY ----------//----------")
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
@@ -491,7 +470,6 @@ def currency():
     currency_dropdown = int(len(driver.find_elements_by_xpath(data["EXPENSE"]["ADMIN"]["currency_dropdown"])))
     select = driver.find_element_by_xpath("//form/div/div/select[@name='currency_id']/option[contains(@selected,'selected')]")
     selected = select.text
-    print(selected)
 
     currency_list = []
     i=0
@@ -502,9 +480,6 @@ def currency():
             currency_list.append(currency.text)
         else:
             continue
-
-    #Logging("- Total of currency: " + str(len(currency_list)))
-    #Logging(currency_list)
 
     x = random.choice(currency_list)
     time.sleep(1)
@@ -520,8 +495,6 @@ def currency():
         success = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["pop_up"])
         time.sleep(2)
         Logging("=> " + success.text)
-        #TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["pass"])
-        #TestlinkResult_Pass("WUI-196")
         driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
         Logging("- Close pop up")
     except WebDriverException:
@@ -529,8 +502,6 @@ def currency():
         error = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["pop_up"])
         time.sleep(2)
         Logging("=> " + error.text)
-        #TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["fail"])
-        #TestlinkResult_Fail("WUI-196")
         driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
         Logging("- Close pop up error")
         driver.close()
@@ -545,13 +516,10 @@ def currency():
         Logging("=> Total list number update: " + currency_counter_update.text)
         Logging("=> Add Currency Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["pass"])
-        #TestlinkResult_Pass("WUI-196")
     else:
         Logging("=> Total list number update: " + currency_counter_update.text)
         Logging("=> Add Currency Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Add Currency Fail</div>")
-        #TestlinkResult_Fail("WUI-196")
 
     return currency_label_name
 
@@ -572,14 +540,12 @@ def currency_execution():
         TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["fail"])
 
 def delete_currency(currency_label_name):
-    search_currency = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["search_general"])
+    Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search_general"], currency_label_name)
     Logging("- Search Currency")
-    search_currency.send_keys(currency_label_name)
-    search_currency.send_keys(Keys.ENTER)
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
     time.sleep(1)
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["select_currency"]))).click()
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["select_currency"])
     Logging("- Select Currency")
 
     currency_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -601,13 +567,10 @@ def delete_currency(currency_label_name):
         Logging("=> Total list number update: " + currency_counter_update.text)
         Logging("=> Delete currency Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_currency"]["pass"])
-        #TestlinkResult_Pass("WUI-216")
     else:
         Logging("=> Total list number update: " + currency_counter_update.text)
         Logging("=> Delete currency Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_currency"]["fail"])
-        #ValidateFailResultAndSystem("<div>[Expense] Delete currency Fail</div>")
-        #TestlinkResult_Fail("WUI-216")
     
 def expense_page(domain_name):
     Logging("================================================= EXPENSE =======================================================")

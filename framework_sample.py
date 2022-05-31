@@ -3,6 +3,7 @@ from selenium import webdriver
 from random import randint
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import WebDriverException
 from MN_functions import driver
@@ -43,6 +44,14 @@ class Waits():
         '''• Usage: Wait until element VISIBLE in a selected time period'''
         
         WebDriverWait(driver, time).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+
+        return element
+
+    def Wait20s_ElementLoaded(xpath):
+        '''• Usage: Wait 20s until element VISIBLE'''
+        
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, xpath)))
         element = driver.find_element_by_xpath(xpath)
 
         return element
@@ -129,6 +138,16 @@ class Commands():
 
         element = driver.find_element_by_xpath(xpath)
         element.send_keys(value)
+
+        return element
+
+    def InputEnterElement(xpath, value):
+        '''• Usage: Send key value in input box and Enter
+                return WebElement'''
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+        element = driver.find_element_by_xpath(xpath)
+        element.send_keys(value)
+        element.send_keys(Keys.RETURN)
 
         return element
     
