@@ -67,7 +67,7 @@ def board(domain_name):
     time.sleep(3)
 
 def setting_my_board():
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["setting"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["setting"])
     Logging("- Select Settings")
 
     my_folder_name = "Folder Board: " + str(n)
@@ -86,7 +86,7 @@ def setting_my_board():
     x = random.choice(my_folder_type_list)
     Commands.ClickElement(data["BOARD"]["SETTING"]["select_type"] + str(x) + "')]")
     Logging("- Select folder type")
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["save"][0]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["save"][0])
     Logging("- Save my folder board")
     
     information = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["BOARD"]["SETTING"]["information"][0])))
@@ -95,7 +95,7 @@ def setting_my_board():
         Logging("=> Add my folder board Successfully")
         TestCase_LogResult(**data["testcase_result"]["board"]["add_my_folder"]["pass"])
 
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["close_infor"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["close_infor"])
     time.sleep(2)
 
     return my_folder_name,x
@@ -123,9 +123,9 @@ def my_folder_execution():
 
 def category(my_folder_name):
     driver.execute_script("window.scrollTo(document.body.scrollHeight, 0);")
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["my_folder"] + str(my_folder_name) + "')]").click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["my_folder"] + str(my_folder_name) + "')]")
     time.sleep(3)
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["category"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["category"])
     time.sleep(3)
     try:
         manage_categories = driver.find_element_by_xpath(data["BOARD"]["SETTING"]["manage_categories"])
@@ -133,7 +133,7 @@ def category(my_folder_name):
             Logging("=> Display manage categories page")
             category_board = "Category Board: " + str(n)
             manage_categories.send_keys(category_board)
-            driver.find_element_by_xpath(data["BOARD"]["SETTING"]["save"][1]).click()
+            Commands.ClickElement(data["BOARD"]["SETTING"]["save"][1])
             Logging("- Save category")
             time.sleep(2)
             category_list = driver.find_element_by_xpath(data["BOARD"]["SETTING"]["category_list"] + str(category_board) + "')]")
@@ -169,12 +169,12 @@ def write_board(my_folder_name,category_board,x):
     Logging("- Click my folder board")
     time.sleep(2)
 
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["write_board"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["write_board"])
     Waits.Wait20s_ElementLoaded(data["BOARD"]["SETTING"]["wait_page"])
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["BOARD"]["SETTING"]["dropdown_cate"])
     Logging("- Write Board")
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["select_category"] + str(category_board) + "')]").click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["select_category"] + str(category_board) + "')]")
     tit_board = "Title of board: " + date
     Commands.InputElement(data["BOARD"]["SETTING"]["title_board"], tit_board)
 
@@ -185,7 +185,7 @@ def write_board(my_folder_name,category_board,x):
     content.send_keys("This is content of board")
     driver.switch_to.default_content()
     Logging("- Input content successfully")
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["save"][2]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["save"][2])
     Logging("- Save board")
     time.sleep(3)
 
@@ -193,7 +193,7 @@ def write_board(my_folder_name,category_board,x):
     if board.text == tit_board:
         Logging("=> Write board successfully")
         TestCase_LogResult(**data["testcase_result"]["board"]["write_board"]["pass"])
-        driver.find_element_by_xpath(data["BOARD"]["SETTING"]["back_list"]).click()
+        Commands.ClickElement(data["BOARD"]["SETTING"]["back_list"])
         Logging("- Back to list board")
         time.sleep(3)
         if str(x) == "Photo Gallery":
@@ -216,18 +216,18 @@ def write_board(my_folder_name,category_board,x):
 
 def delete_my_folder(my_folder_name):
     time.sleep(3)
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["setting"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["setting"])
     Commands.Wait10s_ClickElement(data["BOARD"]["SETTING"]["my_folder"] + str(my_folder_name) + "')]")
     time.sleep(2)
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["delete_folder"]).click()
-    driver.find_element_by_xpath(data["BOARD"]["SETTING"]["button_OK"]).click()
+    Commands.ClickElement(data["BOARD"]["SETTING"]["delete_folder"])
+    Commands.ClickElement(data["BOARD"]["SETTING"]["button_OK"])
     try:
         infor_delete = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["BOARD"]["SETTING"]["information"][1])))
         time.sleep(3)
         if infor_delete.is_displayed():
             Logging("=> Delete folder successfully")
             TestCase_LogResult(**data["testcase_result"]["board"]["delete_my_folder"]["pass"])
-            driver.find_element_by_xpath(data["BOARD"]["SETTING"]["close_infor"]).click()
+            Commands.ClickElement(data["BOARD"]["SETTING"]["close_infor"])
     except:
         Logging("=> Delete folder fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["delete_my_folder"]["fail"])
@@ -235,7 +235,7 @@ def delete_my_folder(my_folder_name):
     time.sleep(2)
 
 def board_settings():
-    driver.find_element_by_xpath(data["BOARD"]["board_admin"]).click()
+    Commands.ClickElement(data["BOARD"]["board_admin"])
     Logging("- Select Board admin")
 
     try:
@@ -247,7 +247,7 @@ def board_settings():
 def parent_folder():
     #Create parent folder
     parent_folder_name = "Company folder: " + str(m)
-    driver.find_element_by_xpath(data["BOARD"]["company_folder"]).click()
+    Commands.ClickElement(data["BOARD"]["company_folder"])
     Logging("- Manage Company Folders")
     
     Waits.Wait20s_ElementLoaded(data["BOARD"]["folder_list"])
@@ -263,24 +263,24 @@ def parent_folder():
     Logging("- Select Folder type")
 
     time.sleep(3)
-    driver.find_element_by_xpath(data["BOARD"]["shared_user"]).click()
+    Commands.ClickElement(data["BOARD"]["shared_user"])
     Logging("- Shared user")
     time.sleep(3)
     Commands.InputEnterElement(data["BOARD"]["search_user"], data["name_keyword"][0])
     time.sleep(2)
     Commands.ClickElement(data["BOARD"]["select_user"])
     Logging("- Select user")
-    driver.find_element_by_xpath(data["BOARD"]["plus_button"]).click()
+    Commands.ClickElement(data["BOARD"]["plus_button"])
     time.sleep(2)
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    driver.find_element_by_xpath(data["BOARD"]["save"][1]).click()
+    Commands.ClickElement(data["BOARD"]["save"][1])
     Logging("- Save ORG")
 
     try:
         share_user = driver.find_element_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_user')]")
         if share_user.is_displayed:
             Logging("=> Share user successfully")
-            driver.find_element_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select").click()
+            Commands.ClickElement("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select")
             time.sleep(3)
             permission_list = int(len(driver.find_elements_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select/option")))
 
@@ -300,7 +300,7 @@ def parent_folder():
 
     time.sleep(2)
 
-    driver.find_element_by_xpath(data["BOARD"]["save"][0]).click()
+    Commands.ClickElement(data["BOARD"]["save"][0])
     Logging("- Save parent folder")
     
     time.sleep(5)
@@ -328,10 +328,10 @@ def sub_folder(parent_folder_name,x):
     driver.execute_script("window.scrollTo(document.body.scrollHeight, 0);")
     Logging("- Scroll up page")
     time.sleep(2)
-    driver.find_element_by_xpath(data["BOARD"]["button_plus"]).click()
+    Commands.ClickElement(data["BOARD"]["button_plus"])
     Logging("- Create sub folder")
     try:
-        driver.find_element_by_xpath(data["BOARD"]["select_parent_folder"]).click()
+        Commands.ClickElement(data["BOARD"]["select_parent_folder"])
         time.sleep(3)
         Commands.ClickElement("//*[@id='board-folder-tree']//li[starts-with(@id,'han-board-folder')]/span/a[contains(., '" + parent_folder_name + "')]")
         Logging("=> Create parent folder successfully")
@@ -370,14 +370,14 @@ def create_sub():
     Logging("- Input sub folder name")
     
     time.sleep(2)
-    driver.find_element_by_xpath(data["BOARD"]["save"][0]).click()
+    Commands.ClickElement(data["BOARD"]["save"][0])
     Logging("- Save sub folder")
     time.sleep(3)
     
     driver.refresh()
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
 
-    driver.find_element_by_xpath(data["BOARD"]["hide_company_board"]).click()
+    Commands.ClickElement(data["BOARD"]["hide_company_board"])
 
     return sub_folder_name
 
@@ -419,25 +419,25 @@ def delete_sub(sub_folder_name):
     Commands.InputEnterElement(data["BOARD"]["search_folder"], sub_folder_name)
     Logging("- Search folder")
     time.sleep(2)
-    driver.find_element_by_xpath("//*[starts-with(@id,'han-board-folder')]//span//a[contains(.,'" + sub_folder_name + "')]").click()
+    Commands.ClickElement("//*[starts-with(@id,'han-board-folder')]//span//a[contains(.,'" + sub_folder_name + "')]")
     Logging("=> Add sub folder Successfully")
     TestCase_LogResult(**data["testcase_result"]["board"]["add_sub_folder"]["pass"])
 
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
-    driver.find_element_by_xpath(data["BOARD"]["delete_folder"][0]).click()
+    Commands.ClickElement(data["BOARD"]["delete_folder"][0])
     Logging("- Delete sub folder")
-    driver.find_element_by_xpath(data["BOARD"]["button_OK"]).click()
+    Commands.ClickElement(data["BOARD"]["button_OK"])
     Commands.Wait10s_ClickElement(data["BOARD"]["close"])
     Logging("- Delete sub-folder successfully")
     Logging(" ")
     time.sleep(2)
 
 def board_folder_list(parent_folder_name):
-    driver.find_element_by_xpath(data["BOARD"]["hide_company_board"]).click()
+    Commands.ClickElement(data["BOARD"]["hide_company_board"])
     time.sleep(1)
-    driver.find_element_by_xpath(data["BOARD"]["board_admin"]).click()
-    driver.find_element_by_xpath(data["BOARD"]["board_folder_list"]).click()
+    Commands.ClickElement(data["BOARD"]["board_admin"])
+    Commands.ClickElement(data["BOARD"]["board_folder_list"])
     Logging("- Board folder list")
     Waits.Wait20s_ElementLoaded(data["BOARD"]["list_folder"])
 
@@ -455,9 +455,9 @@ def board_folder_list(parent_folder_name):
         Logging("=> Search folder Successfully")
         TestCase_LogResult(**data["testcase_result"]["board"]["search_folder"]["pass"])
         Logging("- Select parent folder")
-        driver.find_element_by_xpath(data["BOARD"]["delete_folder"][1]).click()
+        Commands.ClickElement(data["BOARD"]["delete_folder"][1])
         Logging("- Delete parent folder")
-        driver.find_element_by_xpath(data["BOARD"]["button_OK"]).click()
+        Commands.ClickElement(data["BOARD"]["button_OK"])
         time.sleep(4)
 
         list_counter_update = driver.find_element_by_xpath(data["BOARD"]["total_list"])
