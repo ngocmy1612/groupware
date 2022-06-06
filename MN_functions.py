@@ -55,8 +55,7 @@ if platform == "linux" or platform == "linux2":
     testcase_log = local_path + log_testcase + "MN_testcase_result_" + str(objects.date_id) + ".xlsx"
     
 else:
-    #local_path = "D:\\Ngoc\\ngoc_automationtest"
-    local_path = "C:\\Users\\Ngoc\\Desktop\\ngoc_automationtest"
+    local_path = "D:\\My Ngoc\\groupware"
     json_file = local_path + "\\MN_groupware_auto.json"
     with open(json_file) as json_file:
         data = json.load(json_file)

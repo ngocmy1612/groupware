@@ -50,7 +50,7 @@ def delete_folder(parent_name):
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["button_OK"][1])
     Logging("- Click button OK")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")))
+    Waits.Wait10s_ElementLoaded(data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")
     time.sleep(2)
 
     try: 
@@ -116,7 +116,7 @@ def set_manager():
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["set_manager"])
     Logging("----------//---------- SET MANAGER ----------//----------")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
     list_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     Logging("=> Total list number: " + list_counter.text)
@@ -127,7 +127,7 @@ def set_manager():
 
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["select_manager"])
     Logging("- Select manager from ORG")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["EXPENSE"]["ADMIN"]["list_ORG"])))
+    Waits.Wait20s_ElementLoaded(data["EXPENSE"]["ADMIN"]["list_ORG"])
     Logging(">> Organization list")
     time.sleep(2)
     Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["user_keyword"], data["name_keyword"][1])
@@ -143,7 +143,7 @@ def set_manager():
     Logging("=> Save Manager")
     time.sleep(2)
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     list_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -181,7 +181,7 @@ def search_manager():
     Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search"], data["name_keyword"][1])
     Logging("- Search user manager")
     
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     list_search = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -191,11 +191,11 @@ def search_manager():
     return list_search_number
     
 def delete_manager(list_search_number):
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["delete"]).click()
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["button_OK"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Delete user")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     list_delete_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -237,14 +237,14 @@ def purpose():
         pass
 
 def add_purpose():
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
-    driver.find_element_by_xpath(data["write_button"][1]).click()
+    Commands.ClickElement(data["write_button"][1])
     Logging("- Write button")  
     time.sleep(2)
     Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], purpose_name)
     Logging("- Input purpose")
-    driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
+    Commands.ClickElement(data["EXPENSE"]["button_save"][1])
     Logging("=> Save Purpose")
 
     try:
@@ -253,7 +253,7 @@ def add_purpose():
         time.sleep(2)
         Logging("=> " + success.text)
         TestCase_LogResult(**data["testcase_result"]["expense"]["add_purpose"]["pass"])
-        driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
+        Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
         time.sleep(2)
 
@@ -266,7 +266,7 @@ def delete_purpose():
     Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search_general"], purpose_name)
     Logging("- Search Purpose")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["select_purpose"])
     Logging("- Select Purpose")
@@ -275,13 +275,13 @@ def delete_purpose():
     Logging("=> Total list number: " + purpose_counter.text)
     purpose_counter_number = int(purpose_counter.text.split(" ")[1])
 
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["delete_purpose"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete_purpose"])
     Logging("- Delete purpose")
     time.sleep(2)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["button_OK"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     purpose_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -300,19 +300,19 @@ def payment_method():
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["payment_method"])
     Logging("----------//---------- PAYMENT METHOD ----------//----------")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
     payment_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     Logging("=> Total list number: " + payment_counter.text)
     payment_counter_number = int(payment_counter.text.split(" ")[1])
-    driver.find_element_by_xpath(data["write_button"][1]).click()
+    Commands.ClickElement(data["write_button"][1])
     Logging("- Write button")
     time.sleep(3)
 
     payment_method_name = data["EXPENSE"]["ADMIN"]["payment_name"] + str(m)
     Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], payment_method_name)
     Logging("- Input Payment Method")
-    driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
+    Commands.ClickElement(data["EXPENSE"]["button_save"][1])
     Logging("=> Save Payment Method")
 
     try:
@@ -321,10 +321,10 @@ def payment_method():
         time.sleep(2)
         Logging("=> " + success.text)
         TestCase_LogResult(**data["testcase_result"]["expense"]["payment_method"]["pass"])
-        driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
+        Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
     except WebDriverException:
-        driver.find_element_by_xpath("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]").click()
+        Commands.ClickElement("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]")
         Logging("- Click back to list")
 
     return payment_method_name,payment_counter_number
@@ -346,16 +346,16 @@ def payment_execution():
         TestCase_LogResult(**data["testcase_result"]["expense"]["payment_method"]["fail"])
 
 def delete_payment_method(payment_method_name,payment_counter_number):
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
-    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '" + payment_method_name + "')]")))
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["delete"]).click()
+    Waits.Wait10s_ElementLoaded("//td[contains(., '" + payment_method_name + "')]")
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
     Logging("- Delete Payment method")
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["button_OK"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     payment_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -378,12 +378,12 @@ def credit_card():
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["credit_card"])
     Logging("----------//---------- CREDIT CARD ----------//----------")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
     credit_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     Logging("=> Total list number: " + credit_counter.text)
     credit_counter_number = int(credit_counter.text.split(" ")[1])
-    driver.find_element_by_xpath(data["write_button"][1]).click()
+    Commands.ClickElement(data["write_button"][1])
     Logging("- Write button")
     time.sleep(2)
 
@@ -404,10 +404,10 @@ def credit_card():
         time.sleep(2)
         Logging("=> " + success.text)
         TestCase_LogResult(**data["testcase_result"]["expense"]["credit_card"]["pass"])
-        driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
+        Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
     except WebDriverException:
-        driver.find_element_by_xpath("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]").click()
+        Commands.ClickElement("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]")
         Logging("- Click back to list")
     
     return owner,credit_counter_number
@@ -429,13 +429,13 @@ def credit_execution():
         TestCase_LogResult(**data["testcase_result"]["expense"]["credit_card"]["fail"])
 
 def delete_credit_card(owner,credit_counter_number):
-    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '" + owner + "')]")))
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["delete"]).click()
+    Waits.Wait10s_ElementLoaded("//td[contains(., '" + owner + "')]")
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
     Logging("- Delete Credit card")
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["button_OK"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     credit_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -454,16 +454,16 @@ def currency():
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["currency"])
     Logging("----------//---------- CURRENCY ----------//----------")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
     currency_counter = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     Logging("=> Total list number: " + currency_counter.text)
     currency_counter_number = int(currency_counter.text.split(" ")[1])
-    driver.find_element_by_xpath(data["write_button"][1]).click()
+    Commands.ClickElement(data["write_button"][1])
     Logging("- Write button")
     time.sleep(3)
 
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["currency_name"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["currency_name"])
     Logging("- Currency Name")
     time.sleep(2)
 
@@ -486,8 +486,8 @@ def currency():
     currency_label = driver.find_element_by_xpath("//form/div/div/select[@name='currency_id']/option[contains(.,'" + str(x) + "')]")
     currency_label.click()
     Logging("- Select Currency")
-    currency_label_name = currency_label.text                                                                             
-    driver.find_element_by_xpath(data["EXPENSE"]["button_save"][1]).click()
+    currency_label_name = currency_label.text     
+    Commands.ClickElement(data["EXPENSE"]["button_save"][1])
     Logging("=> Save Currency")
 
     try:
@@ -495,18 +495,18 @@ def currency():
         success = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["pop_up"])
         time.sleep(2)
         Logging("=> " + success.text)
-        driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
+        Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
     except WebDriverException:
         driver.find_element_by_xpath("//h4[contains(., 'Error')]")
         error = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["pop_up"])
         time.sleep(2)
         Logging("=> " + error.text)
-        driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["close"]).click()
+        Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up error")
         driver.close()
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     currency_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
@@ -543,7 +543,7 @@ def delete_currency(currency_label_name):
     Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["search_general"], currency_label_name)
     Logging("- Search Currency")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(1)
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["select_currency"])
     Logging("- Select Currency")
@@ -552,12 +552,12 @@ def delete_currency(currency_label_name):
     Logging("=> Total list number: " + currency_counter.text)
     currency_counter_number = int(currency_counter.text.split(" ")[1])
 
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["delete"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
     Logging("- Delete currency")
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["button_OK"]).click()
+    Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
     currency_counter_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
