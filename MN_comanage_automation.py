@@ -35,13 +35,12 @@ def kanban(admin_account):
     return project
 
 def create_project():
-    driver.find_element_by_xpath(data["COMANAGE"]["create_project"]).click()
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["project_template"])))
-    project_name = driver.find_element_by_xpath(data["COMANAGE"]["project_name"])
-    project_name.send_keys("Project: " + str(n))
+    Commands.ClickElement(data["COMANAGE"]["create_project"])
+    Waits.Wait10s_ElementLoaded(data["COMANAGE"]["project_template"])
+    Commands.InputElement(data["COMANAGE"]["project_name"], "Project: " + str(n))
 
-    driver.find_element_by_xpath(data["COMANAGE"]["Kanban_Project"]).click()
-    driver.find_element_by_xpath(data["COMANAGE"]["save_project"]).click()
+    Commands.ClickElement(data["COMANAGE"]["Kanban_Project"])
+    Commands.ClickElement(data["COMANAGE"]["save_project"])
 
     infor = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["wait_bussiness"])))
     if infor.is_displayed():
@@ -50,19 +49,17 @@ def create_project():
         Logging(">> Create new project Fail")
     #create excel file for create new project anf check condition when create project fail
     time.sleep(2)
-    driver.find_element_by_xpath(data["COMANAGE"]["add_leader"]).click()
+    Commands.ClickElement(data["COMANAGE"]["add_leader"])
     time.sleep(5)
 
-    search_leader = driver.find_element_by_xpath(data["COMANAGE"]["search_leader"])
-    search_leader.send_keys("a")
-    search_leader.send_keys(Keys.ENTER)
+    Commands.InputEnterElement(data["COMANAGE"]["search_leader"], "a")
     time.sleep(2)
-    driver.find_element_by_xpath(data["COMANAGE"]["user1"]).click()
-    driver.find_element_by_xpath(data["COMANAGE"]["user2"]).click()
-    driver.find_element_by_xpath(data["COMANAGE"]["button_add"]).click()
-    driver.find_element_by_xpath(data["COMANAGE"]["save_leader"]).click()
+    Commands.ClickElement(data["COMANAGE"]["user1"])
+    Commands.ClickElement(data["COMANAGE"]["user2"])
+    Commands.ClickElement(data["COMANAGE"]["button_add"])
+    Commands.ClickElement(data["COMANAGE"]["save_leader"])
     time.sleep(3)
-    driver.find_element_by_xpath(data["COMANAGE"]["board"]).click()
+    Commands.ClickElement(data["COMANAGE"]["board"])
 
 def run_project(admin_account):
     project = kanban(admin_account)
@@ -85,7 +82,7 @@ def insert_work():
     #Insert work
     time.sleep(5)
     try:
-        driver.find_element_by_xpath(data["COMANAGE"]["search_work"])
+        Waits.Wait10s_ElementLoaded(data["COMANAGE"]["search_work"])
         close_search = driver.find_element_by_xpath(data["COMANAGE"]["close_search"])
         if close_search.is_displayed():
             close_search.click()
@@ -95,25 +92,19 @@ def insert_work():
 
     time.sleep(3)
     insert_work_name = data["COMANAGE"]["insert_ticket"] + str(m)
-    insert_work = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["frame_work"])))
-    driver.switch_to.frame(insert_work)
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["insert_frame"])))
-    insert = driver.find_element_by_xpath(data["COMANAGE"]["insert"])
-    insert.send_keys(insert_work_name)
-    Logging("- Input work name")
-    insert.send_keys(Keys.RETURN)
+    Commands.SwitchToFrame(data["COMANAGE"]["frame_work"])
+    Waits.Wait20s_ElementLoaded(data["COMANAGE"]["insert_frame"])
+    Commands.InputEnterElement(data["COMANAGE"]["insert"], insert_work_name)
     Logging("- Insert Work")
-    driver.switch_to.default_content()
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["loading_dialog"])))
+    Commands.SwitchToDefaultContent()
+    Waits.Wait20s_ElementLoaded(data["loading_dialog"])
 
     #Search work
     time.sleep(3)
-    search_work = driver.find_element_by_xpath(data["COMANAGE"]["search_work"])
-    search_work.send_keys(insert_work_name)
-    search_work.send_keys(Keys.ENTER)
+    Commands.InputEnterElement(data["COMANAGE"]["search_work"], insert_work_name)
     Logging("- Search work")
     time.sleep(5)
-    driver.find_element_by_xpath(data["COMANAGE"]["view_ticket"]).click()
+    Commands.ClickElement(data["COMANAGE"]["view_ticket"])
     Logging("- View ticket")
     time.sleep(3)
     detail = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["detail_work"])))
@@ -134,14 +125,14 @@ def insert_work():
         TestCase_LogResult(**data["testcase_result"]["co_manage"]["view_work"]["fail"])
 
     update_work()
-    driver.find_element_by_xpath(data["COMANAGE"]["close_detail_work"]).click()
+    Commands.ClickElement(data["COMANAGE"]["close_detail_work"])
     Logging("- Close detail work")
     time.sleep(2)
-    driver.find_element_by_xpath(data["COMANAGE"]["close_search"]).click()
+    Commands.ClickElement(data["COMANAGE"]["close_search"])
     Logging("- Close search work")
 
 def update_work():
-    driver.find_element_by_xpath(data["COMANAGE"]["show_more"]).click()
+    Commands.ClickElement(data["COMANAGE"]["show_more"])
     Logging("- Show more")
     Logging("")
 
@@ -185,8 +176,7 @@ def update_work():
 def update_status():
     #Select status
     start_status = driver.find_element_by_xpath(data["COMANAGE"]["start_status"])
-    #Logging(start_status.text)
-    driver.find_element_by_xpath(data["COMANAGE"]["status"]).click()
+    Commands.ClickElement(data["COMANAGE"]["status"])
     Logging("- Update status")
     status_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["status_list"])))
     
@@ -202,12 +192,10 @@ def update_status():
             continue
 
     Logging("- Total of status: " + str(len(list_status)))
-    #Logging(list_status)
 
     x = random.choice(list_status)
     time.sleep(1)
-    status_label = driver.find_element_by_xpath("//span[contains(@class, 'status-item') and contains(., '" + str(x) + "')]")
-    status_label.click()
+    Commands.ClickElement("//span[contains(@class, 'status-item') and contains(., '" + str(x) + "')]")
     Logging("- Select status")
 
     time.sleep(3)
@@ -222,8 +210,7 @@ def update_status():
 def update_work_type():
     #Select work type
     start_work_type = driver.find_element_by_xpath(data["COMANAGE"]["start_work_type"])
-    #Logging(start_work_type.text)
-    driver.find_element_by_xpath(data["COMANAGE"]["work_type"]).click()
+    Commands.ClickElement(data["COMANAGE"]["work_type"])
     Logging("- Update Work type")
     work_type_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["work_type_list"])))
     
@@ -238,12 +225,10 @@ def update_work_type():
             continue
 
     Logging("- Total of work type: " +  str(len(list_work_type)))
-    #Logging(list_work_type)
 
     x = random.choice(list_work_type)
     time.sleep(1)
-    work_type_label = driver.find_element_by_xpath("//div[contains(@title, 'Work type')]/following-sibling::div/div/ul/li/a[contains(., '" + str(x) + "')]")
-    work_type_label.click()
+    Commands.ClickElement(data["COMANAGE"]["work_type_label"] + str(x) + "')]")
     Logging("- Select work type")
 
     time.sleep(3)
@@ -258,8 +243,7 @@ def update_work_type():
 def update_assigned_to():
     #Select assigned to
     start_assign = driver.find_element_by_xpath(data["COMANAGE"]["start_assign"])
-    #Logging(start_assign.text)
-    driver.find_element_by_xpath(data["COMANAGE"]["assigned_to"]).click()
+    Commands.ClickElement(data["COMANAGE"]["assigned_to"])
     Logging("- Assigned to")
     time.sleep(3)
     assign_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["assign_list"])))
@@ -277,12 +261,10 @@ def update_assigned_to():
             continue
 
     Logging("- Total of assign: " + str(len(list_assign)))
-    #Logging(list_assign)
 
     x = random.choice(list_assign)
     time.sleep(1)
-    assign_label = driver.find_element_by_xpath("//div[contains(@title, 'Assigned to')]/following-sibling::div//li/a/span[contains(., '" + str(x) + "')]")
-    assign_label.click()
+    Commands.ClickElement(data["COMANAGE"]["assign_label"] + str(x) + "')]")
     Logging("- Select user")
     
     time.sleep(3)
@@ -297,8 +279,7 @@ def update_assigned_to():
 def update_priority():
     #Select priority
     start_priority = driver.find_element_by_xpath(data["COMANAGE"]["start_priority"])
-    #Logging(start_priority.text)
-    driver.find_element_by_xpath(data["COMANAGE"]["priority"]).click()
+    Commands.ClickElement(data["COMANAGE"]["priority"])
     Logging("- Update priority")
     time.sleep(2)
     priority_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["priority_list"])))
@@ -314,19 +295,14 @@ def update_priority():
             continue
 
     Logging("- Total of priority: "+ str(len(list_priority)))
-    #Logging(list_priority)
 
     x = random.choice(list_priority)
     time.sleep(2)
     if str(x) == "Low":
-        priority_label = driver.find_element_by_xpath("//div[@id='priority_tooltip']/following-sibling::div//li/a[2]/span")
-        time.sleep(2)
-        priority_label.click()
+        Commands.Wait10s_ClickElement(data["COMANAGE"]["priority_label1"])
         Logging("- Select priority")
     else:
-        priority_label = driver.find_element_by_xpath("//div[@id='priority_tooltip']/following-sibling::div//li/a/span[contains(., '" + str(x) + "')]")
-        time.sleep(2)
-        priority_label.click()
+        Commands.Wait10s_ClickElement(data["COMANAGE"]["priority_label2"]+ str(x) + "')]")
         Logging("- Select priority")
     
     time.sleep(3)
@@ -359,20 +335,18 @@ def update_date():
     insert.send_keys(data["COMANAGE"]["input_description"])
     Logging("- Input Description")
     driver.switch_to.default_content()
-    driver.find_element_by_xpath(data["COMANAGE"]["save"]).click()
+    Commands.ClickElement(data["COMANAGE"]["save"])
     Logging("- Save Description")
 
 def write_comment():
     #Comment
-    driver.find_element_by_xpath(data["COMANAGE"]["comment"]).click()
+    Commands.ClickElement(data["COMANAGE"]["comment"])
     time.sleep(2)
-    insert_comment = driver.find_element_by_xpath(data["COMANAGE"]["frame_work_comment"])
-    driver.switch_to.frame(insert_comment)
-    input_comment = driver.find_element_by_xpath(data["COMANAGE"]["insert"])
-    input_comment.send_keys(data["COMANAGE"]["input_comment"])
+    Commands.SwitchToFrame(data["COMANAGE"]["frame_work_comment"])
+    Commands.InputElement(data["COMANAGE"]["insert"], data["COMANAGE"]["input_comment"])
     Logging("- Input comment")
-    driver.switch_to.default_content()
-    driver.find_element_by_xpath(data["COMANAGE"]["save_comment"]).click()
+    Commands.SwitchToDefaultContent()
+    Commands.ClickElement(data["COMANAGE"]["save_comment"])
     Logging("- Save comment")
     comment_work = driver.find_element_by_xpath(data["COMANAGE"]["check_comment"])
     if (data["COMANAGE"]["input_comment"]) == comment_work.text:
@@ -383,11 +357,11 @@ def write_comment():
         TestCase_LogResult(**data["testcase_result"]["co_manage"]["write_comment"]["fail"])
 
 def work_list():
-    WebDriverWait(driver,20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["wait_load_board"])))
+    Waits.Wait20s_ElementLoaded(data["COMANAGE"]["wait_load_board"])
 
-    driver.find_element_by_xpath(data["COMANAGE"]["work_list"]).click()
+    Commands.ClickElement(data["COMANAGE"]["work_list"])
     Logging("- Work List")
-    WebDriverWait(driver,20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["wait_load_work"])))
+    Waits.Wait20s_ElementLoaded(data["COMANAGE"]["wait_load_work"])
     try:
         filters_work_type()
     except:
@@ -397,9 +371,8 @@ def filters_work_type():
     work_list_counter = driver.find_element_by_xpath(data["COMANAGE"]["total_work_list"])
     Logging("=> Total work list: " + work_list_counter.text)
     work_list_counter_number = int(work_list_counter.text.split(" ")[1])
-    #Logging(work_list_counter_number)
 
-    driver.find_element_by_xpath(data["COMANAGE"]["filters"]).click()
+    Commands.ClickElement(data["COMANAGE"]["filters"])
     Logging("- Search Filters")
     filter_work_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["filter_work_list"])))
 
@@ -412,15 +385,13 @@ def filters_work_type():
         list_filter_work.append(filter_work.text)
     
     Logging("- Total filter Work type: "+ str(len(list_filter_work)))
-    #Logging(list_filter_work)
 
     x = random.choice(list_filter_work)
-    filter_work_select = driver.find_element_by_xpath("//div[@class='wrap-iframe']//button[contains(@class, 'member') and contains(., '" + str(x) + "')]")
-    filter_work_select.click()
+    Commands.ClickElement(data["COMANAGE"]["filter_work_list"] + str(x) + "')]")
     Logging("- Filter Work type")
 
     #Check filters
-    driver.find_element_by_xpath(data["COMANAGE"]["apply_filter"]).click()
+    Commands.ClickElement(data["COMANAGE"]["apply_filter"])
     Logging("- Apply filter")
 
     time.sleep(3)
@@ -432,9 +403,9 @@ def filters_work_type():
         Logging("=> Search filter Work type Successfully")
         TestCase_LogResult(**data["testcase_result"]["co_manage"]["filters_work_type"]["pass"])
         if work_list_counter_number_update > 0:
-            driver.find_element_by_xpath(data["COMANAGE"]["close_filter"]).click()
+            Commands.ClickElement(data["COMANAGE"]["close_filter"])
             Logging("- Close filter")
-            driver.find_element_by_xpath(data["COMANAGE"]["view_work"]).click()
+            Commands.ClickElement(data["COMANAGE"]["view_work"])
             Logging("- View work")
             time.sleep(2)
 
@@ -448,12 +419,12 @@ def filters_work_type():
                     Logging("=> Correct Work type")
                 elif type_text.text == str(x):
                     Logging("=> Correct Work type")
-                    driver.find_element_by_xpath(data["COMANAGE"]["sub_work"]).click()
+                    Commands.ClickElement(data["COMANAGE"]["sub_work"])
                     Logging("- Create Sub work")
                     sub_name = "Auto Test: Sub work " + str(m)
-                    driver.find_element_by_xpath(data["COMANAGE"]["input_sub_work"]).send_keys(sub_name)
+                    Commands.InputElement(data["COMANAGE"]["input_sub_work"], sub_name)
                     Logging("- Input Sub work name")
-                    driver.find_element_by_xpath(data["COMANAGE"]["save_sub_work"]).click()
+                    Commands.ClickElement(data["COMANAGE"]["save_sub_work"])
                     Logging("- Save Sub work")
                     time.sleep(3)
                     sub_work_title = driver.find_element_by_xpath("//*[@id='collapseSubWorks']//div//p[contains(.,'" + sub_name + "')]")
@@ -465,17 +436,16 @@ def filters_work_type():
                         TestCase_LogResult(**data["testcase_result"]["co_manage"]["sub-work"]["fail"])
                 else:
                     Logging("=> Wrong Work type")
-
-                driver.find_element_by_xpath(data["COMANAGE"]["filters"]).click()
-                driver.find_element_by_xpath(data["COMANAGE"]["reset_filter"]).click()
-                driver.find_element_by_xpath(data["COMANAGE"]["close_filter"]).click()
+                Commands.ClickElement(data["COMANAGE"]["filters"])
+                Commands.ClickElement(data["COMANAGE"]["reset_filter"])
+                Commands.ClickElement(data["COMANAGE"]["close_filter"])
             else:
                 Logging("=> View work list fail")
                 TestCase_LogResult(**data["testcase_result"]["co_manage"]["view_work_list"]["fail"])
         else:
             Logging("=> Total filter = 0")
-            driver.find_element_by_xpath(data["COMANAGE"]["reset_filter"]).click()
-            driver.find_element_by_xpath(data["COMANAGE"]["close_filter"]).click()
+            Commands.ClickElement(data["COMANAGE"]["reset_filter"])
+            Commands.ClickElement(data["COMANAGE"]["close_filter"])
     else:
         Logging("=> Total work list update: " + work_list_counter_update.text)
         Logging("=> Search filter Work type Fail")
@@ -523,7 +493,7 @@ def write_work():
 def co_manage(domain_name):
     Logging("================================================= CO-MANAGE =======================================================")
     driver.get(domain_name + "/projectnew/project-folder/normal/0_0")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li[contains(@data-category,'projectnew')]//input")))
+    Waits.Wait20s_ElementLoaded(data["COMANAGE"]["wait_page"])
 
     try:
         admin_account = driver.find_element_by_xpath("//*[starts-with(@id,'mCSB') and contains (@id,'container')]//li/a[contains(@ng-click,'showAdminSetting($event)')]")

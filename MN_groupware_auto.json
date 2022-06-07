@@ -183,6 +183,12 @@
         "view_ticket": "//*[@id='boardStatus']/div/div/div/div[1]/div[3]/span/div/div[1]/div/div[1]",
         "insert": "//*[@id='tinymce']/p",
         "detail_work": "//detail-work-react/div[@class='detail-work']//div[@class='work-comment']//input",
+        "work_type_label": "//div[contains(@title, 'Work type')]/following-sibling::div/div/ul/li/a[contains(., '",
+        "assign_label": "//div[contains(@title, 'Assigned to')]/following-sibling::div//li/a/span[contains(., '",
+        "priority_label1": "//div[@id='priority_tooltip']/following-sibling::div//li/a[2]/span",
+        "priority_label2": "//div[@id='priority_tooltip']/following-sibling::div//li/a/span[contains(., '",
+        "filter_work_select": "//div[@class='wrap-iframe']//button[contains(@class, 'member') and contains(., '",
+        "wait_page": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li[contains(@data-category,'projectnew')]//input",
 
         "show_more": "//span[contains(., 'Show more')]",
         "start_assign": "//div[@class='clearfix project-new-work']//div[3]//div[@class='input-edit dropdown-toggle']/span/span",
