@@ -79,11 +79,11 @@ def MyExecution(domain_name):
 def My_Execution(domain_name):
     MN_functions.access_qa(domain_name)
     MN_functions.close_pop_up()
-    # try:
-    #     MN_task_automation.task(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-    #     pass
+    try:
+        MN_task_automation.task(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
+        pass
 
     # try:
     #     MN_expense_automation.expense(domain_name)
@@ -91,11 +91,11 @@ def My_Execution(domain_name):
     #     Logging(">>>> Cannot continue execution")
     #     pass
 
-    try:
-        MN_comanage_automation.comanage(domain_name)
-    except:
-        Logging(">>>> Cannot continue execution")
-        pass
+    # try:
+    #     MN_comanage_automation.comanage(domain_name)
+    # except:
+    #     Logging(">>>> Cannot continue execution")
+    #     pass
 
     # try:
     #     MN_board_automation.board(domain_name)

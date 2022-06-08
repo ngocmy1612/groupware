@@ -450,46 +450,7 @@ def filters_work_type():
         Logging("=> Total work list update: " + work_list_counter_update.text)
         Logging("=> Search filter Work type Fail")
         TestCase_LogResult(**data["testcase_result"]["co_manage"]["filters_work_type"]["fail"])
-    
-def drag_drop():
-    '''time.sleep(3)
-    search_work = driver.find_element_by_xpath(data["COMANAGE"]["search_work"])
-    search_work.send_keys("Automation Test: Insert work 737")
-    search_work.send_keys(Keys.ENTER)
-    Logging("- Search work")'''
-    time.sleep(5)
-    source = driver.find_element_by_xpath("//*[@id='boardStatus']/div/div/div/div[1]/div[3]/span/div/div[1]/div/div")
-    target= driver.find_element_by_xpath("//*[@id='boardStatus']/div/div/div/div[3]/div[2]")
-    #action = ActionChains(driver)
-    #drag and drop operation and the perform
-    webdriver.ActionChains(driver).drag_and_drop(source,target).perform()
-    #action.drag_and_drop(source, target).perform()
-
-def write_work():
-    try:
-        driver.find_element_by_xpath(data["write_button"][2]).click()
-        Logging("- Write Work")
-        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "tox-editor-header")))
-        Logging("check")
-
-        time.sleep(5)
-        insert_work_name = data["COMANAGE"]["insert_ticket"] + str(m)
-        insert_work = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["frame_work"])))
-        driver.switch_to.frame(insert_work)
-        test = driver.find_element_by_xpath("//*[@id='tinymce']/p")
-        test.send_keys(insert_work_name)
-        Logging("- Input work name")
-        test.send_keys(Keys.RETURN)
-        Logging("- Insert Work")
-        driver.switch_to.default_content()
-
-
-
-        '''driver.find_element_by_xpath("//form/div[4]/input").send_keys("test")
-        Logging("success")'''
-    except WebDriverException:
-        Logging("- Cannot write work")
-
+        
 def co_manage(domain_name):
     Logging("================================================= CO-MANAGE =======================================================")
     driver.get(domain_name + "/projectnew/project-folder/normal/0_0")

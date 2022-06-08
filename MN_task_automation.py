@@ -102,7 +102,7 @@ def delete_folder_workdiary(input_name):
     time.sleep(3)
 
     try:
-        folder_name = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Work_Diary"]["fol_name"] + str(input_name) + "')]")))
+        Waits.WaitElementLoaded(5, data["TASK"]["Work_Diary"]["fol_name"] + str(input_name) + "')]")
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["delete_folder"]["fail"])
     except:
@@ -110,7 +110,7 @@ def delete_folder_workdiary(input_name):
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["delete_folder"]["pass"])
 
 def manage_folders():
-    manage_folders = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, "//span[contains(.,'Manage Folders ')]")))
+    manage_folders = Waits.WaitElementLoaded(5, "//span[contains(.,'Manage Folders ')]")
     manage_folders.location_once_scrolled_into_view
     manage_folders.click()
     Logging("- Manage Folders")

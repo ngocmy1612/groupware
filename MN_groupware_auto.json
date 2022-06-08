@@ -107,7 +107,9 @@
         "parent_folder": "Parent Folder: ",
         "button_save": "//*[@id='ngw.circular.container']/list-view//circular-setting-component/form/div[2]/div[3]/button",
         "button_OK": "//button[contains(., 'OK')]",
-        "delete_button": "//*[@id='ngw.circular.container']/list-view//circular-setting-component/form/div[1]/div[1]/div[2]/a[2]"
+        "delete_button": "//*[@id='ngw.circular.container']/list-view//circular-setting-component/form/div[1]/div[1]/div[2]/a[2]",
+        "folder_update": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '",
+        "add_fol": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '"
         
     },
 
@@ -263,6 +265,11 @@
     },
 
     "BOARD":{
+        "share_user": "//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_user')]",
+        "permission_list": "//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select/option",
+        "option": "//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select/option[",
+        "select_folder" :"//*[@id='ngw.board.admin_folder']//board-folder-react-list//td[contains(.,'",
+        "admin_account": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li/a[contains(@data-ng-click,'showAdminSetting($event)')]",
         "menu_board": "//div[@id='main-navi']/nav-menu-react/nav/a[@class='nt btn-board']",
         "board_list": "//*[@id='message-list']/board-react-list/div",
         "hide_company_board": "//div[starts-with(@id, 'mCSB') and contains(@id, 'container')]/div/ul/li[contains(@data-category,'board')]/a[contains(.,' Company Board')]/b",

@@ -26,10 +26,10 @@ def circular(domain_name):
     time.sleep(3)
 
 def circular_folder():
-    driver.find_element_by_xpath("//span[contains(., ' Settings')]").click()
+    Commands.ClickElement("//span[contains(., ' Settings')]")
     Logging("- Setting Circular")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["CIRCULAR"]["add_folder"])))
+    Waits.Wait20s_ElementLoaded(data["CIRCULAR"]["add_folder"])
     time.sleep(2)
     Logging("- Add folder")
     parent_name = data["CIRCULAR"]["parent_folder"] + str(n)
@@ -41,7 +41,7 @@ def circular_folder():
     Logging("- Save Parent Folder")
     time.sleep(3)
 
-    Commands.Wait10s_ClickElement("//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '" + parent_name + "')]")
+    Commands.Wait10s_ClickElement(data["CIRCULAR"]["add_fol"] + parent_name + "')]")
     Logging("=> Add folder circular Successfully")
     TestCase_LogResult(**data["testcase_result"]["circular"]["add_folder"]["pass"])
 
@@ -71,7 +71,7 @@ def delete_folder(parent_name):
     time.sleep(3)
 
     try:
-        folder_update = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '" + parent_name + "')]")))
+        Waits.WaitElementLoaded(5,  data["CIRCULAR"]["folder_update"]+ parent_name + "')]")
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["circular"]["delete_folder"]["fail"])
     except:

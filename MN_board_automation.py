@@ -29,12 +29,12 @@ def board_page(domain_name):
     Logging("================================================= BOARD =======================================================")
     driver.get(domain_name + "/board/list/comp_0/")
     Waits.Wait20s_ElementLoaded(data["BOARD"]["board_list"])
-    driver.find_element_by_xpath(data["BOARD"]["hide_company_board"]).click()
+    Commands.ClickElement(data["BOARD"]["hide_company_board"])
     Logging("- Hide company Board")
     time.sleep(1)
 
     try:
-        admin_account = driver.find_element_by_xpath("//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li/a[contains(@data-ng-click,'showAdminSetting($event)')]")
+        admin_account = driver.find_element_by_xpath(data["BOARD"]["admin_account"])
         admin_account = True
         Logging("ADMIN ACCOUNT")
     except:
@@ -89,7 +89,7 @@ def setting_my_board():
     Commands.ClickElement(data["BOARD"]["SETTING"]["save"][0])
     Logging("- Save my folder board")
     
-    information = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["BOARD"]["SETTING"]["information"][0])))
+    information = Waits.Wait10s_ElementLoaded(data["BOARD"]["SETTING"]["information"][0])
     time.sleep(3)
     if information.is_displayed():
         Logging("=> Add my folder board Successfully")
@@ -222,7 +222,7 @@ def delete_my_folder(my_folder_name):
     Commands.ClickElement(data["BOARD"]["SETTING"]["delete_folder"])
     Commands.ClickElement(data["BOARD"]["SETTING"]["button_OK"])
     try:
-        infor_delete = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["BOARD"]["SETTING"]["information"][1])))
+        infor_delete = Waits.Wait10s_ElementLoaded(data["BOARD"]["SETTING"]["information"][1])
         time.sleep(3)
         if infor_delete.is_displayed():
             Logging("=> Delete folder successfully")
@@ -277,19 +277,19 @@ def parent_folder():
     Logging("- Save ORG")
 
     try:
-        share_user = driver.find_element_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_user')]")
+        share_user = driver.find_element_by_xpath(data["BOARD"]["share_user"])
         if share_user.is_displayed:
             Logging("=> Share user successfully")
             Commands.ClickElement("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select")
             time.sleep(3)
-            permission_list = int(len(driver.find_elements_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select/option")))
+            permission_list = int(len(driver.find_elements_by_xpath(data["BOARD"]["permission_list"])))
 
             list_permission = []
             i = 0
 
             for i in range(permission_list):
                 i += 1
-                option = driver.find_element_by_xpath("//*[@id='boot-strap-valid']//div/ul//span[contains(@class,'share_sel')]//select/option[" + str(i) + "]")
+                option = driver.find_element_by_xpath(data["BOARD"]["option"] + str(i) + "]")
                 list_permission.append(option.text)
 
             x = random.choice(list_permission)
@@ -388,7 +388,7 @@ def check_per(parent_folder_name,x):
         TestCase_LogResult(**data["testcase_result"]["board"]["shared_board"]["pass"])
     else:
         try:
-            company_folder = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["BOARD"]["company_folder_check"]+"//span[contains(.,'" + parent_folder_name + "')]")))
+            company_folder = Waits.Wait20s_ElementLoaded(data["BOARD"]["company_folder_check"]+"//span[contains(.,'" + parent_folder_name + "')]")
             if company_folder.is_displayed():
                 Logging("=> Folders are displayed in company folder tree")
                 TestCase_LogResult(**data["testcase_result"]["board"]["shared_board"]["pass"])
@@ -449,7 +449,7 @@ def board_folder_list(parent_folder_name):
     Logging("=> Total list number: " + list_counter.text)
     list_counter_number = int(list_counter.text.split(" ")[1])
 
-    select_folder = driver.find_element_by_xpath("//*[@id='ngw.board.admin_folder']//board-folder-react-list//td[contains(.,'" + parent_folder_name + "')]")
+    select_folder = driver.find_element_by_xpath(data["BOARD"]["select_folder"] + parent_folder_name + "')]")
     if select_folder.is_displayed():
         select_folder.click()
         Logging("=> Search folder Successfully")
