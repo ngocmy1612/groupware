@@ -12,7 +12,7 @@ from pathlib import Path
 import os
 from framework_sample import *
 
-from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult
+from MN_functions import *
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
@@ -32,7 +32,7 @@ def circular_folder():
     Waits.Wait20s_ElementLoaded(data["CIRCULAR"]["add_folder"])
     time.sleep(2)
     Logging("- Add folder")
-    parent_name = data["CIRCULAR"]["parent_folder"] + str(n)
+    parent_name = data["CIRCULAR"]["parent_folder"] + objects.date_time
     Commands.InputElement(data["CIRCULAR"]["folder_name"], parent_name)
     Logging("- Input folder name")
     time.sleep(1)

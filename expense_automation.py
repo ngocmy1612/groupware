@@ -15,15 +15,12 @@ import os
 
 from framework_sample import *
 
-from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult
+from MN_functions import *
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
 
-now = datetime.now()
-date = now.strftime("%m/%d/%y %H:%M:%S")
-
-purpose_name = data["EXPENSE"]["ADMIN"]["name_purpose1"] + date
+purpose_name = data["EXPENSE"]["ADMIN"]["name_purpose1"] + objects.date_time
 
 def settings_expense():
     Commands.ClickElement(data["EXPENSE"]["SETTINGS"]["settings_expense"])
@@ -31,7 +28,7 @@ def settings_expense():
 
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "writeFolder")))
     Logging("- Add folder")
-    parent_name = data["EXPENSE"]["SETTINGS"]["parent_folder"] + str(n)
+    parent_name = data["EXPENSE"]["SETTINGS"]["parent_folder"] + objects.date_time
     Commands.InputElement(data["EXPENSE"]["SETTINGS"]["folder_name"], parent_name)
     Logging("- Input folder name")
     time.sleep(1)
@@ -309,7 +306,7 @@ def payment_method():
     Logging("- Write button")
     time.sleep(3)
 
-    payment_method_name = data["EXPENSE"]["ADMIN"]["payment_name"] + str(m)
+    payment_method_name = data["EXPENSE"]["ADMIN"]["payment_name"] + objects.date_time
     Commands.InputElement(data["EXPENSE"]["ADMIN"]["input_name"], payment_method_name)
     Logging("- Input Payment Method")
     Commands.ClickElement(data["EXPENSE"]["button_save"][1])

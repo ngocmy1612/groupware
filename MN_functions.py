@@ -50,8 +50,8 @@ if platform == "linux" or platform == "linux2":
     log_folder = "/Log/"
     log_testcase = "/testcase_log/"
     execution_log = local_path + log_folder + "execution_log_" + str(objects.date_id) + ".txt"
-    fail_log = execution_log.replace("execution_log_", "fail_log_")
-    error_log = execution_log.replace("execution_log_", "error_log_")
+    # fail_log = execution_log.replace("execution_log_", "fail_log_")
+    # error_log = execution_log.replace("execution_log_", "error_log_")
     testcase_log = local_path + log_testcase + "MN_testcase_result_" + str(objects.date_id) + ".xlsx"
     
 else:
@@ -63,8 +63,8 @@ else:
     log_folder = "\\Log\\"
     log_testcase = "\\testcase_log\\"
     execution_log = local_path + log_folder + "execution_log_" + str(objects.date_id) + ".txt"
-    fail_log = execution_log.replace("execution_log_", "fail_log_")
-    error_log = execution_log.replace("execution_log_", "error_log_")
+    # fail_log = execution_log.replace("execution_log_", "fail_log_")
+    # error_log = execution_log.replace("execution_log_", "error_log_")
     testcase_log = local_path + log_testcase + "MN_testcase_result_" + str(objects.date_id) + ".xlsx"
     
 driver.maximize_window()
@@ -81,7 +81,7 @@ open(fail_log, "x").close()
 open(error_log, "x").close()
 '''
 
-logs = [execution_log, fail_log, error_log, testcase_log]
+logs = [execution_log, testcase_log]
 for log in logs:
     if ".txt" in log:
         open(log, "x").close()

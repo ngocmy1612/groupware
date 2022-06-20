@@ -13,7 +13,7 @@ from pathlib import Path
 import os
 from framework_sample import *
 
-from MN_functions import driver, data, ValidateFailResultAndSystem, Logging, TestCase_LogResult
+from MN_functions import *
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
@@ -29,7 +29,7 @@ def work_diary():
     
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "diary_setting_form")))
     Logging("- Wait add folder")
-    input_name = data["TASK"]["Work_Diary"]["folder_name"] + str(n)
+    input_name = data["TASK"]["Work_Diary"]["folder_name"] + objects.date_time
     Commands.InputElement(data["TASK"]["Work_Diary"]["input_folder_name"], input_name)
     Logging("- Input Folder name")
     time.sleep(5)
@@ -117,7 +117,7 @@ def manage_folders():
 
     WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID, "task-tab-content")))
     Logging("- Wait add folder")
-    task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
+    task_name = data["TASK"]["Task_Report"]["folder_task"] + objects.date_time
     Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][0], task_name)
     Logging("- Input Folder name")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
@@ -172,7 +172,7 @@ def set_recipients():
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["add_button"][0])
     Logging("- Click Add button")
     time.sleep(2)
-    input_group = data["TASK"]["Task_Report"]["name_group"] + str(n)
+    input_group = data["TASK"]["Task_Report"]["name_group"] + objects.date_time
     Commands.InputElement(data["TASK"]["Task_Report"]["recipients_group"], input_group)
     Logging("- Input name group")
 
@@ -244,7 +244,7 @@ def write_task_report(input_group,add_list):
     Logging("- Click button write")
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["wait_editor"])))
 
-    title = data["TASK"]["Task_Report"]["task_title"] + str(m)
+    title = data["TASK"]["Task_Report"]["task_title"] + objects.date_time
     Commands.InputElement(data["TASK"]["Task_Report"]["input_title"], title)
     Logging("- Input title")
 
@@ -283,7 +283,7 @@ def write_task_report(input_group,add_list):
     driver.switch_to.frame(frame_task)
     content = driver.find_element_by_xpath("//body[@id='tinymce']/p")
     content.clear()
-    content.send_keys(data["TASK"]["Task_Report"]["task_content"])
+    content.send_keys(data["TASK"]["Task_Report"]["task_content"] + objects.date_time)
     driver.switch_to.default_content()
     Logging("- Input content successfully")
     
@@ -317,7 +317,7 @@ def create_folder():
     Logging("- Create folder to add auto-sort")
     WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID, "task-tab-content")))
     Logging("- Wait add folder")
-    task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
+    task_name = data["TASK"]["Task_Report"]["folder_task"] + objects.date_time
     Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][1], task_name)
     Logging("- Input Folder name")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
@@ -349,7 +349,7 @@ def auto_sort():
         create_auto_sort()
 
 def create_auto_sort():
-    name_sort = data["TASK"]["Task_Report"]["word_sort"]
+    name_sort = data["TASK"]["Task_Report"]["word_sort"] + objects.date_time
     Commands.Wait10s_InputElement(data["TASK"]["Task_Report"]["input_word"], name_sort)
     Logging("- Input word sort")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][2])
