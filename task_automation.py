@@ -1,5 +1,6 @@
 import re, sys, json
 import time, random
+from turtle import st
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -12,14 +13,10 @@ from random import choice
 from pathlib import Path
 import os
 from framework_sample import *
-
 from MN_functions import *
 
 n = random.randint(1,1000)
 m = random.randint(1,10000)
-
-#chrome_path = os.path.dirname(Path(__file__).absolute())+"\\chromedriver.exe"
-#result=open(os.path.dirname(Path(__file__).absolute())+'\\result.txt','w')
 
 def work_diary():
     #Chờ xuất hiện danh sách work
@@ -27,9 +24,9 @@ def work_diary():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["setting_workdiary"])
     Logging("- Setting folder")
     
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "diary_setting_form")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='diary_setting_form']")))
     Logging("- Wait add folder")
-    input_name = data["TASK"]["Work_Diary"]["folder_name"] + objects.date_time
+    input_name = data["TASK"]["Work_Diary"]["folder_name"] + str(n)
     Commands.InputElement(data["TASK"]["Work_Diary"]["input_folder_name"], input_name)
     Logging("- Input Folder name")
     time.sleep(5)
@@ -47,7 +44,7 @@ def work_diary():
     Logging("- Save folder")
 
     time.sleep(2)
-    Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["fol_name"] + str(input_name) + "')]")
+    Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
     Logging("=> Add folder successfully")
     TestCase_LogResult(**data["testcase_result"]["work_diary"]["add_folder"]["pass"])
 
@@ -64,7 +61,6 @@ def workdiary_execution():
             delete_folder_workdiary(input_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add folder fail")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["add_folder"]["fail"])
@@ -102,7 +98,7 @@ def delete_folder_workdiary(input_name):
     time.sleep(3)
 
     try:
-        Waits.WaitElementLoaded(5, data["TASK"]["Work_Diary"]["fol_name"] + str(input_name) + "')]")
+        Waits.WaitElementLoaded(5, data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["work_diary"]["delete_folder"]["fail"])
     except:
@@ -115,16 +111,16 @@ def manage_folders():
     manage_folders.click()
     Logging("- Manage Folders")
 
-    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID, "task-tab-content")))
+    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='task-tab-content']")))
     Logging("- Wait add folder")
-    task_name = data["TASK"]["Task_Report"]["folder_task"] + objects.date_time
+    task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
     Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][0], task_name)
     Logging("- Input Folder name")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
     Logging("- Save folder")
     time.sleep(3)
 
-    Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["fol_name"] + str(task_name) + "')]")
+    Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["fol_name"] % str(task_name))
     Logging("=> Create folder successfully")
     TestCase_LogResult(**data["testcase_result"]["task_report"]["add_folder"]["pass"])
 
@@ -141,7 +137,6 @@ def manager_folder_execution():
             delete_manage_folder(task_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Create folder fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["add_folder"]["fail"])
@@ -154,7 +149,7 @@ def delete_manage_folder(task_name):
     time.sleep(2)
 
     try:
-        folder_name = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["fol_name"] + str(task_name) + "')]")))
+        folder_name = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["fol_name"] % str(task_name))))
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_folder"]["fail"])
     except:
@@ -205,7 +200,7 @@ def set_recipients():
     Logging("- Save recipients group")
     time.sleep(2)
 
-    find_list = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '" + input_group + "')]")))
+    find_list = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % input_group)))
     if find_list.is_displayed():
         Logging("=> Set recipients successfully")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["set_recipients"]["pass"])
@@ -229,7 +224,6 @@ def recipient_execution():
             delete_recipients(input_group)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Set recipients fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["set_recipients"]["fail"])
@@ -239,7 +233,7 @@ def write_task_report(input_group,add_list):
     Logging("+++ MY TASK REPORT +++")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["my_task_report"])
     Logging("- My Task Report")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "report-list")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='report-list']")))
     Commands.Wait10s_ClickElement(data["write_button"][0])
     Logging("- Click button write")
     WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["wait_editor"])))
@@ -251,7 +245,7 @@ def write_task_report(input_group,add_list):
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["recipients"])
     Logging("- Select Recipients")
     try:
-        Commands.Wait10s_ClickElement("//option[contains(., '" + input_group + "')]")
+        Commands.Wait10s_ClickElement("//option[contains(., '%s')]" % input_group)
         Logging("- Select default recipients")
         list_recipients_default = driver.find_element_by_xpath(data["TASK"]["Task_Report"]["recipients_default"])
         export_list_default = list_recipients_default.find_elements_by_tag_name("li")
@@ -279,7 +273,7 @@ def write_task_report(input_group,add_list):
         Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][0])
         Logging(">> Save user")
         
-    frame_task = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "tox-edit-area__iframe")))
+    frame_task = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@class='tox-edit-area__iframe']")))
     driver.switch_to.frame(frame_task)
     content = driver.find_element_by_xpath("//body[@id='tinymce']/p")
     content.clear()
@@ -292,7 +286,7 @@ def write_task_report(input_group,add_list):
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click button OK")
     try:
-        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "report-view")))
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='report-view']")))
         time.sleep(3)
         Logging("=> Task Report save successfully")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["write_task"]["pass"])
@@ -306,7 +300,7 @@ def delete_recipients(input_group):
 
     Waits.Wait10s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
-    Commands.Wait10s_ClickElement("//td[contains(., '" + input_group + "')]/following-sibling::td//a[contains(@data-ng-click, 'del(item.id)')]")
+    Commands.Wait10s_ClickElement("//td[contains(., '%s')]/following-sibling::td//a[contains(@data-ng-click, 'del(item.id)')]" % input_group)
     time.sleep(2)
     Logging("- Delete Recipients")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_OK"])
@@ -315,9 +309,9 @@ def delete_recipients(input_group):
 
 def create_folder():
     Logging("- Create folder to add auto-sort")
-    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.ID, "task-tab-content")))
+    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='task-tab-content']")))
     Logging("- Wait add folder")
-    task_name = data["TASK"]["Task_Report"]["folder_task"] + objects.date_time
+    task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
     Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][1], task_name)
     Logging("- Input Folder name")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][2])
@@ -344,18 +338,17 @@ def auto_sort():
             time.sleep(2)
         else:
             Logging(">>>> Cannot continue execution")
-            pass
     except WebDriverException:
         create_auto_sort()
 
 def create_auto_sort():
-    name_sort = data["TASK"]["Task_Report"]["word_sort"] + objects.date_time
+    name_sort = data["TASK"]["Task_Report"]["word_sort"] + str(m)
     Commands.Wait10s_InputElement(data["TASK"]["Task_Report"]["input_word"], name_sort)
     Logging("- Input word sort")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][2])
     Logging("- Save auto sort")
 
-    auto_sort_name = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '" + name_sort + "')]")))
+    auto_sort_name = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % name_sort)))
     if auto_sort_name.is_displayed():
         Logging("=> Create Auto_sort Successfully")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["add_auto_sort"]["pass"])
@@ -371,7 +364,7 @@ def create_auto_sort():
     Logging("- Click button OK")
     time.sleep(2)
     try:
-        find_auto = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '" + name_sort + "')]")))
+        find_auto = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % name_sort)))
         if find_auto.is_displayed:
             Logging("=> Delete Auto_sort Fail")
             TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_auto_sort"]["fail"])
@@ -395,35 +388,30 @@ def task_report():
         manager_folder_execution()
     except:
         Logging(">>>> Cannot continue execution")
-        pass
 
     try:
         recipient_execution()
     except:
         Logging(">>>> Cannot continue execution")
-        pass
 
     try:
         auto_sort()
     except:
         Logging(">>>> Cannot continue execution")
-        pass
     
 def task(domain_name):
     driver.get(domain_name + "/task/diary/list/pdefault/")
     time.sleep(3)
     Logging("================================================= TASK =======================================================")
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "diary-list")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='diary-list']")))
 
     try:
         workdiary_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
     try:
         task_report()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
     

@@ -12,9 +12,7 @@ from random import choice
 from datetime import datetime
 from pathlib import Path
 import os
-
 from framework_sample import *
-
 from MN_functions import *
 
 n = random.randint(1,1000)
@@ -26,16 +24,16 @@ def settings_expense():
     Commands.ClickElement(data["EXPENSE"]["SETTINGS"]["settings_expense"])
     Logging("- Setting Expense")
 
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, "writeFolder")))
+    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='writeFolder']")))
     Logging("- Add folder")
-    parent_name = data["EXPENSE"]["SETTINGS"]["parent_folder"] + objects.date_time
+    parent_name = data["EXPENSE"]["SETTINGS"]["parent_folder"] + str(n)
     Commands.InputElement(data["EXPENSE"]["SETTINGS"]["folder_name"], parent_name)
     Logging("- Input folder name")
     time.sleep(1)
     Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["button_OK"][0])
     Logging("- Save Parent Folder")
 
-    Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")
+    Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
     Logging("=> Add folder expense Successfully")
     TestCase_LogResult(**data["testcase_result"]["expense"]["add_folder"]["pass"])
 
@@ -47,11 +45,11 @@ def delete_folder(parent_name):
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["EXPENSE"]["SETTINGS"]["button_OK"][1])
     Logging("- Click button OK")
-    Waits.Wait10s_ElementLoaded(data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")
+    Waits.Wait10s_ElementLoaded(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
     time.sleep(2)
 
     try: 
-        last_expense_del = driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["last_list_folder"] + parent_name + "')]")
+        last_expense_del = driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
         if last_expense_del.is_displayed():
             Logging("=> Delete folder Fail")
             TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["fail"])
@@ -70,7 +68,6 @@ def setting_execution():
             delete_folder(parent_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add folder expense Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["add_folder"]["fail"])
@@ -83,31 +80,26 @@ def admin():
         manager_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
     try:
         purpose()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
     try:
         payment_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
     try:
         credit_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
     try:
         currency_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
 def set_manager():
     Commands.Wait10s_ClickElement(data["EXPENSE"]["ADMIN"]["set_manager"])
@@ -337,7 +329,6 @@ def payment_execution():
             delete_payment_method(payment_method_name,payment_counter_number)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Save Payment Method Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["payment_method"]["fail"])
@@ -346,7 +337,7 @@ def delete_payment_method(payment_method_name,payment_counter_number):
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
 
-    Waits.Wait10s_ElementLoaded("//td[contains(., '" + payment_method_name + "')]")
+    Waits.Wait10s_ElementLoaded("//td[contains(., '%s')]" % payment_method_name)
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
     Logging("- Delete Payment method")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
@@ -420,13 +411,12 @@ def credit_execution():
             delete_credit_card(owner,credit_counter_number)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Save credit Card Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["credit_card"]["fail"])
 
 def delete_credit_card(owner,credit_counter_number):
-    Waits.Wait10s_ElementLoaded("//td[contains(., '" + owner + "')]")
+    Waits.Wait10s_ElementLoaded("//td[contains(., '%s')]" % owner)
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["delete"])
     Logging("- Delete Credit card")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
@@ -480,7 +470,7 @@ def currency():
 
     x = random.choice(currency_list)
     time.sleep(1)
-    currency_label = driver.find_element_by_xpath("//form/div/div/select[@name='currency_id']/option[contains(.,'" + str(x) + "')]")
+    currency_label = driver.find_element_by_xpath("//form/div/div/select[@name='currency_id']/option[contains(.,'%s')]" % str(x))
     currency_label.click()
     Logging("- Select Currency")
     currency_label_name = currency_label.text     
@@ -531,7 +521,6 @@ def currency_execution():
             delete_currency(currency_label_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add Currency Fail")
         TestCase_LogResult(**data["testcase_result"]["expense"]["currency"]["fail"])
@@ -572,7 +561,7 @@ def delete_currency(currency_label_name):
 def expense_page(domain_name):
     Logging("================================================= EXPENSE =======================================================")
     driver.get(domain_name + "/expense/list/share/share/")
-    WebDriverWait(driver, 40).until(EC.presence_of_element_located((By.ID, "expense-list")))
+    WebDriverWait(driver, 40).until(EC.presence_of_element_located((By.XPATH, "//*[@id='expense-list']")))
 
     try:
         admin_account = driver.find_element_by_xpath("//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li/a[contains(@data-ng-click,'showAdminSetting()')]")
@@ -591,19 +580,16 @@ def expense(domain_name):
             setting_execution()
         except:
             Logging(">>>> Cannot continue excution")
-            pass
 
         try:
             admin()
         except:
             Logging(">>>> Cannot continue excution")
-            pass
     else:
         try:
             setting_execution()
         except:
             Logging(">>>> Cannot continue excution")
-            pass
 
     time.sleep(3)
 
