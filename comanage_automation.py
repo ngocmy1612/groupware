@@ -52,8 +52,8 @@ def create_project():
     Commands.ClickElement(data["COMANAGE"]["add_leader"])
     time.sleep(5)
 
-    Commands.InputEnterElement(data["COMANAGE"]["search_leader"], "a")
-    time.sleep(2)
+    Commands.InputEnterElement(data["COMANAGE"]["search_leader"], "auto")
+    time.sleep(3)
     Commands.ClickElement(data["COMANAGE"]["user1"])
     Commands.ClickElement(data["COMANAGE"]["user2"])
     Commands.ClickElement(data["COMANAGE"]["button_add"])

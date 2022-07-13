@@ -78,34 +78,27 @@ def My_Execution(domain_name):
     except:
         Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     expense_automation.expense(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-    #     pass
+    try:
+        expense_automation.expense(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     comanage_automation.comanage(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-    #     pass
+    try:
+        comanage_automation.comanage(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     board_automation.board(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-    #     pass
+    try:
+        board_automation.board(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     circular_automation.circular(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-    #     pass
+    try:
+        circular_automation.circular(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-#My_Execution("http://myngoc.hanbiro.net/ngw/app/#")
-#My_Execution("https://global3.hanbiro.com/ngw/app/#")
-
-My_Execution("http://groupware57.hanbiro.net/ngw/app/#")
+My_Execution("http://tg02.hanbiro.net/ngw/app/#")
 
 
 def clockout_function():
