@@ -310,8 +310,8 @@
             "setting": "//div[starts-with(@id, 'mCSB') and contains(@id, 'container')]//li/a[contains(@ng-click, 'goToSetting()')]",
             "name_folder": "//*[@id='board_setting_form']//input[contains(@data-ng-model,'folder.name')]",
             "my_folder_type": "//*[@id='board_setting_form']//div[@class='radio']/label",
-            "my_type": "//*[@id='board_setting_form']//div[@class='radio']/label[",
-            "select_type": "//*[@id='board_setting_form']//div[@class='radio']/label[contains(.,'",
+            "my_type": "//*[@id='board_setting_form']//div[@class='radio']/label[%s]",
+            "select_type": "//*[@id='board_setting_form']//div[@class='radio']/label[contains(.,'%s')]",
             "save": [
                 "//*[@id='board_setting_form']//button[contains(@data-ng-click,'saveFolder()')]",
                 "//span/button[contains(@ng-click, 'saveCategory()')]",

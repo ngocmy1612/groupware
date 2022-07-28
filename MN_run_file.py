@@ -98,16 +98,16 @@ def My_Execution(domain_name):
     except:
         Logging(">>>> Cannot continue execution")
 
-My_Execution("http://tg02.hanbiro.net/ngw/app/#")
+My_Execution("http://tg01.hanbiro.net/ngw/app/#")
 
 
-def clockout_function():
-    out = clockout.text
-    status = statusclockout.text
+# def clockout_function():
+#     out = clockout.text
+#     status = statusclockout.text
 
-    clock_out = {
-        "time" : out,
-        "stat" : status
-    }
+#     clock_out = {
+#         "time" : out,
+#         "stat" : status
+#     }
 
-    return clock_out
+#     return clock_out

@@ -20,8 +20,6 @@ from MN_functions import *
 n = random.randint(1,1000)
 m = random.randint(1,10000)
 
-#chrome_path = os.path.dirname(Path(__file__).absolute())+"\\chromedriver.exe"
-
 def board_page(domain_name):
     Logging("================================================= BOARD =======================================================")
     driver.get(domain_name + "/board/list/comp_0/")
@@ -31,7 +29,7 @@ def board_page(domain_name):
     time.sleep(1)
 
     try:
-        admin_account = driver.find_element_by_xpath(data["BOARD"]["admin_account"])
+        driver.find_element_by_xpath(data["BOARD"]["admin_account"])
         admin_account = True
         Logging("ADMIN ACCOUNT")
     except:
@@ -47,29 +45,28 @@ def board(domain_name):
             my_folder_execution()
         except:
             Logging(">>>> Cannot continue excution")
-            pass
 
-        try:
-            board_settings()
-        except:
-            Logging(">>>> Cannot continue excution")
-            pass
+        # try:
+        #     board_settings()
+        # except:
+        #     Logging(">>>> Cannot continue excution")
     else:
         try:
             my_folder_execution()
         except:
             Logging(">>>> Cannot continue excution")
-            pass
 
     time.sleep(3)
 
 def setting_my_board():
+    my_board = {}
+
     Commands.ClickElement(data["BOARD"]["SETTING"]["setting"])
     Logging("- Select Settings")
 
     my_folder_name = "Test Folder " + str(n)
+    my_board["my_folder_name"] = my_folder_name
     Commands.InputElement(data["BOARD"]["SETTING"]["name_folder"], my_folder_name)
-    Logging("- Input name my folder board")
 
     my_folder_type = int(len(driver.find_elements_by_xpath(data["BOARD"]["SETTING"]["my_folder_type"])))
 
@@ -77,11 +74,12 @@ def setting_my_board():
     i = 0
     for i in range(my_folder_type):
         i += 1
-        my_type = driver.find_element_by_xpath(data["BOARD"]["SETTING"]["my_type"] + str(i) + "]")
+        my_type = driver.find_element_by_xpath(data["BOARD"]["SETTING"]["my_type"] % str(i))
         my_folder_type_list.append(my_type.text)
 
-    x = random.choice(my_folder_type_list)
-    Commands.ClickElement(data["BOARD"]["SETTING"]["select_type"] + str(x) + "')]")
+    type_choose = random.choice(my_folder_type_list)
+    my_board["type_choose"] = type_choose
+    Commands.ClickElement(data["BOARD"]["SETTING"]["select_type"] % str(type_choose))
     Logging("- Select folder type")
     Commands.ClickElement(data["BOARD"]["SETTING"]["save"][0])
     Logging("- Save my folder board")
@@ -95,30 +93,31 @@ def setting_my_board():
     Commands.ClickElement(data["BOARD"]["SETTING"]["close_infor"])
     time.sleep(2)
 
-    return my_folder_name,x
+    return my_board
 
 def my_folder_execution():
     try:
-        my_folder_name,x = setting_my_board()
+        my_board = setting_my_board()
     except:
-        my_folder_name,x = None
+        my_board = None
 
-    if bool(my_folder_name) == True:
+    if bool(my_board) == True:
         try:
-            write_execution(my_folder_name,x)
+            write_execution(my_board)
         except:
             Logging(">>>> Cannot continue execution")
             pass
-        try:
-            delete_my_folder(my_folder_name)
-        except:
-            Logging(">>>> Cannot continue execution")
-            pass
+        # try:
+        #     delete_my_folder(my_board)
+        # except:
+        #     Logging(">>>> Cannot continue execution")
+        #     pass
     else:
         Logging("=> Add my folder board Fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["add_my_folder"]["fail"])
 
-def category(my_folder_name):
+def category(my_board):
+    my_folder_name = my_board["my_folder_name"]
     driver.execute_script("window.scrollTo(document.body.scrollHeight, 0);")
     Commands.ClickElement(data["BOARD"]["SETTING"]["my_folder"] + str(my_folder_name) + "')]")
     time.sleep(3)
@@ -143,15 +142,15 @@ def category(my_folder_name):
     driver.refresh()
     return category_board
 
-def write_execution(my_folder_name,x):
+def write_execution(my_board):
     try:
-        category_board = category(my_folder_name)
+        category_board = category(my_board)
     except:
         category_board = None
 
     if bool(category_board) == True:
         try:
-            write_board(my_folder_name,category_board,x)
+            write_board(my_board,category_board)
         except:
             Logging(">>>> Cannot continue execution")
             pass
@@ -327,6 +326,7 @@ def sub_folder(parent_folder_name,x):
     time.sleep(2)
     Commands.ClickElement(data["BOARD"]["button_plus"])
     Logging("- Create sub folder")
+    time.sleep(3)
     try:
         Commands.ClickElement(data["BOARD"]["select_parent_folder"])
         time.sleep(3)

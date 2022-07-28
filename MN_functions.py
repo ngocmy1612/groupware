@@ -103,11 +103,11 @@ def Logging(msg):
     log_msg.write(str(msg) + "\n")
     log_msg.close()
 
-def ValidateFailResultAndSystem(fail_msg):
-    print(fail_msg)
-    append_fail_result = open(fail_log, "a")
-    append_fail_result.write("[FAILED TEST CASE] " + str(fail_msg) + "\n")
-    append_fail_result.close()
+# def ValidateFailResultAndSystem(fail_msg):
+#     print(fail_msg)
+#     append_fail_result = open(fail_log, "a")
+#     append_fail_result.write("[FAILED TEST CASE] " + str(fail_msg) + "\n")
+#     append_fail_result.close()
 
 def TestCase_LogResult(menu, sub_menu, testcase, status, description, tester):
     if status == "Pass":
