@@ -28,9 +28,10 @@
                 "//*[@id='diary_setting_form']/div[2]/div[3]/button[1]",
                 "//button[contains(@data-ng-click,'saveForm()')]"
             ],
-        
+            
             "menu_task": "//div[@id='main-navi']/nav-menu-react/nav/a[contains(@data-name, 'task,Task')]/span",
             "setting_workdiary": "//span[contains(.,'Settings ')]",
+            "diary_setting_form": "//*[@id='diary_setting_form']",
             "folder_name": "Folder Diary: ",
             "input_folder_name": "//*[@id='form_add_folder']/div[3]/div/input",
             "input_share_name": "//*[@id='form_add_folder']/div[5]/div/input",
@@ -39,8 +40,9 @@
             "invite_user": "//*[@id='form_add_folder']/div[11]/label/a",
             "list_ORG": "//*[@id='getJournalShare']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getJournalShare']//div[@class='nav-search']//span//input",
-            "user_1": "//*[@id='getJournalShare']//a[contains(text(),'Selenium/AutomationTest1')]",
-            "user_2": "//*[@id='getJournalShare']//a[contains(text(),'Selenium/AutomationTest2')]",
+            "select_user": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]",
+            "user_1": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]//ul/li[1]/span/span[2]",
+            "user_2": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]//ul/li[2]/span/span[2]",
             "plus_button": "//*[@id='getJournalShare']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "notify_save": "//h4[contains(.,' Saved')]",
             "reload_folder": "//*[@id='diary_setting_form']/div[1]/div[1]/div[2]/a[3]",
@@ -56,6 +58,7 @@
                 "//*[@id='ngw.task.reportsetting']/div/div/div[2]/div/div[2]/div[2]/div/form/div[2]/div/input",
                 "//*[@id='ngw.task.setting']/div/div/div[2]/div/div[2]/div[2]/div/form/div[2]/div/input"
             ],
+            "task_tab_content": "//*[@id='task-tab-content']",
             "folder_task": "Folder Task: ",
             "notify_save": "//h4[contains(.,' Saved')]",
             "reload_folder": "//*[@id='ngw.task.reportsetting']/div/div/div[2]/div/div[1]/div[1]/div[3]/a[3]",
@@ -73,8 +76,9 @@
             "recipients_ORG": "//div[3]/label/a",
             "list_ORG": "//*[@id='getReportTargetList']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getReportTargetList']//div[@class='nav-search']//span//input",
-            "user_1": "//*[@id='getReportTargetList']//a[contains(text(),'Selenium/AutomationTest1')]",
-            "user_2": "//*[@id='getReportTargetList']//a[contains(text(),'Selenium/AutomationTest2')]",
+            "select_user": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]",
+            "user_1": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]//ul/li[1]/span/span[2]",
+            "user_2": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]//ul/li[2]/span/span[2]",
             "plus_button": "//*[@id='getReportTargetList']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "button_save": [
                 "//*[@id='getReportTargetList']/div/div/div[3]/button[1]",
@@ -310,8 +314,8 @@
             "setting": "//div[starts-with(@id, 'mCSB') and contains(@id, 'container')]//li/a[contains(@ng-click, 'goToSetting()')]",
             "name_folder": "//*[@id='board_setting_form']//input[contains(@data-ng-model,'folder.name')]",
             "my_folder_type": "//*[@id='board_setting_form']//div[@class='radio']/label",
-            "my_type": "//*[@id='board_setting_form']//div[@class='radio']/label[%s]",
-            "select_type": "//*[@id='board_setting_form']//div[@class='radio']/label[contains(.,'%s')]",
+            "my_type": "//*[@id='board_setting_form']//div[@class='radio']/label[",
+            "select_type": "//*[@id='board_setting_form']//div[@class='radio']/label[contains(.,'",
             "save": [
                 "//*[@id='board_setting_form']//button[contains(@data-ng-click,'saveFolder()')]",
                 "//span/button[contains(@ng-click, 'saveCategory()')]",

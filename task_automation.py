@@ -24,12 +24,12 @@ def work_diary():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["setting_workdiary"])
     Logging("- Setting folder")
     
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='diary_setting_form']")))
+    Waits.Wait20s_ElementLoaded(data["TASK"]["Work_Diary"]["diary_setting_form"])
     Logging("- Wait add folder")
     input_name = data["TASK"]["Work_Diary"]["folder_name"] + str(n)
     Commands.InputElement(data["TASK"]["Work_Diary"]["input_folder_name"], input_name)
     Logging("- Input Folder name")
-    time.sleep(5)
+    time.sleep(3)
     
     try:
         share_folder()
@@ -53,7 +53,7 @@ def work_diary():
 def workdiary_execution():
     try:
         input_name = work_diary()
-    except:
+    except: 
         input_name = None
 
     if bool(input_name) == True:
@@ -77,8 +77,7 @@ def share_folder():
     Logging("- Organization list")
     time.sleep(2)
 
-    Commands.InputEnterElement(data["TASK"]["Work_Diary"]["user_keyword"], data["name_keyword"][0])
-    Logging("- Search Users")
+    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["select_user"]).click()
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["user_1"])
     Logging("- Select user 1")
@@ -111,7 +110,7 @@ def manage_folders():
     manage_folders.click()
     Logging("- Manage Folders")
 
-    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, "//*[@id='task-tab-content']")))
+    Waits.Wait10s_ElementLoaded(data["TASK"]["Task_Report"]["task_tab_content"])
     Logging("- Wait add folder")
     task_name = data["TASK"]["Task_Report"]["folder_task"] + str(n)
     Commands.InputElement(data["TASK"]["Task_Report"]["folder_task_name"][0], task_name)
@@ -149,7 +148,7 @@ def delete_manage_folder(task_name):
     time.sleep(2)
 
     try:
-        folder_name = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["TASK"]["Task_Report"]["fol_name"] % str(task_name))))
+        Waits.WaitElementLoaded(5,data["TASK"]["Task_Report"]["fol_name"] % str(task_name))
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_folder"]["fail"])
     except:
@@ -176,8 +175,7 @@ def set_recipients():
     Waits.Wait20s_ElementLoaded(data["TASK"]["Task_Report"]["list_ORG"])
     Logging(">> Organization list")
     time.sleep(2)
-    Commands.InputEnterElement(data["TASK"]["Task_Report"]["user_keyword"], data["name_keyword"][0])
-    Logging(">> Search Users")
+    driver.find_element_by_xpath(data["TASK"]["Task_Report"]["select_user"]).click()
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["user_1"])
     Logging(">> Select user 1")
@@ -188,13 +186,7 @@ def set_recipients():
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][0])
     Logging(">> Save user")
     Logging("=> Add recipients successfully")
-
-    list_recipients_add = driver.find_element_by_xpath(data["TASK"]["Task_Report"]["recipients_add"])
-    export_list_add = list_recipients_add.find_elements_by_tag_name("li")
-    Logging("- Logging the recipients list_add: ")
-    for list_add in export_list_add:
-        Logging(list_add.text)
-        add_list = list_add.text
+    time.sleep(3)
 
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][1])
     Logging("- Save recipients group")
@@ -205,16 +197,16 @@ def set_recipients():
         Logging("=> Set recipients successfully")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["set_recipients"]["pass"])
     
-    return input_group,add_list
+    return input_group
 
 def recipient_execution():
     try:
-        input_group,add_list = set_recipients()
+        input_group = set_recipients()
     except:
-        input_group,add_list = None
+        input_group = None
 
     try:
-        write_task_report(input_group,add_list)
+        write_task_report(input_group)
     except:
         Logging(">>>> Cannot continue execution")
         pass
@@ -228,7 +220,7 @@ def recipient_execution():
         Logging("=> Set recipients fail")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["set_recipients"]["fail"])
 
-def write_task_report(input_group,add_list):
+def write_task_report(input_group):
     Logging("===========================================================")
     Logging("+++ MY TASK REPORT +++")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["my_task_report"])

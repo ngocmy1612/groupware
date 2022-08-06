@@ -131,7 +131,6 @@ def TestCase_LogResult(menu, sub_menu, testcase, status, description, tester):
 
 def access_qa(domain):
     driver.get(domain)
-    print(domain)
     print("- Access login page")
     driver.find_element_by_id("log-userid").send_keys(data["user_name"])
     print("- Input user ID")
