@@ -1,5 +1,4 @@
-import re, sys, json
-import time, random
+import re, sys, json, time, random, os
 from turtle import st
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,7 +10,6 @@ from selenium.common.exceptions import NoSuchElementException, WebDriverExceptio
 from selenium.webdriver.support import expected_conditions as EC
 from random import choice
 from pathlib import Path
-import os
 from framework_sample import *
 from MN_functions import *
 
@@ -77,12 +75,8 @@ def share_folder():
     Logging("- Organization list")
     time.sleep(2)
 
-    driver.find_element_by_xpath(data["TASK"]["Work_Diary"]["select_user"]).click()
-    time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["user_1"])
     Logging("- Select user 1")
-    Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["user_2"])
-    Logging("- Select user 2")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["plus_button"])
     Logging("- Add button")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][0])
@@ -175,14 +169,11 @@ def set_recipients():
     Waits.Wait20s_ElementLoaded(data["TASK"]["Task_Report"]["list_ORG"])
     Logging(">> Organization list")
     time.sleep(2)
-    driver.find_element_by_xpath(data["TASK"]["Task_Report"]["select_user"]).click()
-    time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["user_1"])
     Logging(">> Select user 1")
-    Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["user_2"])
-    Logging(">> Select user 2")
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["plus_button"])
     Logging(">> Add button")
+    time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][0])
     Logging(">> Save user")
     Logging("=> Add recipients successfully")
@@ -239,24 +230,12 @@ def write_task_report(input_group):
     try:
         Commands.Wait10s_ClickElement("//option[contains(., '%s')]" % input_group)
         Logging("- Select default recipients")
-        list_recipients_default = driver.find_element_by_xpath(data["TASK"]["Task_Report"]["recipients_default"])
-        export_list_default = list_recipients_default.find_elements_by_tag_name("li")
-        Logging("- Logging the recipients list_default: ")
-        for list_default in export_list_default:
-            Logging(list_default.text)
-        if list_default.text == add_list:
-            Logging("=> Recipients list correct user")
-        else:
-            Logging("=> Recipients list wrong user")
     except:
         Logging("==> Don't have default recipients")
         Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["organization"])
         Logging("- Select recipients from org")
         Waits.Wait20s_ElementLoaded(data["TASK"]["Task_Report"]["list_ORG"])
         Logging(">> Organization list")
-        time.sleep(2)
-        Commands.InputEnterElement(data["TASK"]["Task_Report"]["user_keyword"], data["name_keyword"][1])
-        Logging(">> Search Users")
         time.sleep(2)
         Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["user_1"])
         Logging(">> Select user")
@@ -356,13 +335,9 @@ def create_auto_sort():
     Logging("- Click button OK")
     time.sleep(2)
     try:
-        find_auto = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % name_sort)))
-        if find_auto.is_displayed:
-            Logging("=> Delete Auto_sort Fail")
-            TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_auto_sort"]["fail"])
-        else:
-            Logging("=> Delete Auto_sort Successfully")
-            TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_auto_sort"]["pass"])
+        WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % name_sort)))
+        Logging("=> Delete Auto_sort Fail")
+        TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_auto_sort"]["fail"])
     except WebDriverException:
         Logging("=> Delete Auto_sort Successfully")
         TestCase_LogResult(**data["testcase_result"]["task_report"]["delete_auto_sort"]["pass"])

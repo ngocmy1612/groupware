@@ -1,6 +1,4 @@
-import re, sys, json, os
-import time, random#, testlink
-import openpyxl
+import re, sys, json, os, time, random, openpyxl, pathlib
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,7 +9,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
 from random import choice, randint
-import pathlib
 from pathlib import Path
 from sys import platform
 import MN_function
