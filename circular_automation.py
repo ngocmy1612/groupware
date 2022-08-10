@@ -26,7 +26,7 @@ def circular(domain_name):
     time.sleep(3)
 
 def circular_folder():
-    Commands.ClickElement("//span[contains(., ' Settings')]")
+    Commands.ClickElement(data["CIRCULAR"]["setting"])
     Logging("- Setting Circular")
 
     Waits.Wait20s_ElementLoaded(data["CIRCULAR"]["add_folder"])
@@ -41,7 +41,7 @@ def circular_folder():
     Logging("- Save Parent Folder")
     time.sleep(3)
 
-    Commands.Wait10s_ClickElement(data["CIRCULAR"]["add_fol"] + parent_name + "')]")
+    Commands.Wait10s_ClickElement(data["CIRCULAR"]["add_fol"] % parent_name)
     Logging("=> Add folder circular Successfully")
     TestCase_LogResult(**data["testcase_result"]["circular"]["add_folder"]["pass"])
 
@@ -58,7 +58,6 @@ def circular_execution():
             delete_folder(parent_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add folder circular Fail")
         TestCase_LogResult(**data["testcase_result"]["circular"]["add_folder"]["fail"])
@@ -71,7 +70,7 @@ def delete_folder(parent_name):
     time.sleep(3)
 
     try:
-        Waits.WaitElementLoaded(5,  data["CIRCULAR"]["folder_update"]+ parent_name + "')]")
+        Waits.WaitElementLoaded(5,  data["CIRCULAR"]["folder_update"] % parent_name)
         Logging("=> Delete folder Fail")
         TestCase_LogResult(**data["testcase_result"]["circular"]["delete_folder"]["fail"])
     except:

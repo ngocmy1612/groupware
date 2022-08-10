@@ -19,30 +19,30 @@ def My_Execution(domain_name):
     MN_functions.access_qa(domain_name)
     MN_functions.close_pop_up()
     
+    # try:
+    #     task_automation.task(domain_name)
+    # except:
+    #     Logging(">>>> Cannot continue execution")
+
     try:
-        task_automation.task(domain_name)
+        expense_automation.expense(domain_name)
     except:
         Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     expense_automation.expense(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
+    try:
+        comanage_automation.comanage(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     comanage_automation.comanage(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
+    try:
+        board_automation.board(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
-    # try:
-    #     board_automation.board(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
-
-    # try:
-    #     circular_automation.circular(domain_name)
-    # except:
-    #     Logging(">>>> Cannot continue execution")
+    try:
+        circular_automation.circular(domain_name)
+    except:
+        Logging(">>>> Cannot continue execution")
 
 My_Execution("http://tg01.hanbiro.net/ngw/app/#")
 

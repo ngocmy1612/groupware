@@ -4,7 +4,7 @@
     "user_name": "automationtest",
     "name_keyword": [
         "automationtest",
-        "automationtest2"
+        "automationtest3"
     ],
     "user_password": "automationtest1!",
     "submit_login": "//button[@id='btn-log']",
@@ -110,9 +110,9 @@
         "button_save": "//*[@id='ngw.circular.container']/list-view//circular-setting-component/form/div[2]/div[3]/button",
         "button_OK": "//button[contains(., 'OK')]",
         "delete_button": "//*[@id='ngw.circular.container']/list-view//circular-setting-component/form/div[1]/div[1]/div[2]/a[2]",
-        "folder_update": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '",
-        "add_fol": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '"
-        
+        "folder_update": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '%s')]",
+        "add_fol": "//circular-tree-folder//ul[@class='dynatree-container']//li//a[contains(., '%s')]",
+        "setting": "//span[contains(., ' Settings')]"
     },
 
     "EXPENSE":{
@@ -137,11 +137,12 @@
         "ADMIN":{
             "admin": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//a[@data-ng-click='showAdminSetting()']/b",
             "set_manager": "//span[contains(.,'Set Manager')]",
+            "select_dept": "//div[@id='getManagerList']//ul[@class='dynatree-container']/li[3]/span//a",
             "select_manager": "//*[@id='expense-form-write']/div/label/button",
             "total_list": "//*[@id='ngw.expense.paymentMethod']/expense-admin-container-view//div[@class='pull-left']",
             "list_ORG": "//*[@id='getManagerList']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getManagerList']//div[@class='nav-search']//span//input",
-            "user_1": "//*[@id='getManagerList']//a[contains(text(),'Selenium/AutomationTest2')]",
+            "user_1": "//div[@id='getManagerList']//ul/li//span[@class='custom-icon']/i[contains(@class,'blue')]/../following-sibling::a",
             "plus_button": "//*[@id='getManagerList']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "search": "//div[@class='nav-search list-search']//input",
             "button_OK": "//button[contains(@ng-click, 'ok()')]",

@@ -1,5 +1,4 @@
-import re, sys, json
-import time, random
+import re, sys, json, time, random, os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
@@ -11,7 +10,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from random import choice
 from datetime import datetime
 from pathlib import Path
-import os
 from framework_sample import *
 from MN_functions import *
 
@@ -49,10 +47,9 @@ def delete_folder(parent_name):
     time.sleep(2)
 
     try: 
-        last_expense_del = driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
-        if last_expense_del.is_displayed():
-            Logging("=> Delete folder Fail")
-            TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["fail"])
+        driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
+        Logging("=> Delete folder Fail")
+        TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["fail"])
     except WebDriverException:
         Logging("=> Delete folder Successfully")
         TestCase_LogResult(**data["testcase_result"]["expense"]["delete_folder"]["pass"])
@@ -119,8 +116,7 @@ def set_manager():
     Waits.Wait20s_ElementLoaded(data["EXPENSE"]["ADMIN"]["list_ORG"])
     Logging(">> Organization list")
     time.sleep(2)
-    Commands.InputEnterElement(data["EXPENSE"]["ADMIN"]["user_keyword"], data["name_keyword"][1])
-    Logging(">> Search Users")
+    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["select_dept"]).click()
     time.sleep(2)
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["user_1"])
     Logging(">> Select user")
