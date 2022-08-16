@@ -40,6 +40,8 @@ def work_diary():
     
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][1])
     Logging("- Save folder")
+    time.sleep(3)
+    pop_up_org("//div[@id='getJournalShare' and contains(@class,'in')]//h4[text()='Organization']", "//div[@id='getJournalShare']//button[@class='close']")
 
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
@@ -82,6 +84,26 @@ def share_folder():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][0])
     Logging("- Save user")
 
+def pop_up_org(xpath1, xpath2):
+    try:
+        Waits.WaitElementLoaded(3,xpath1)
+        PrintRed("ORG still show")
+        driver.find_element_by_xpath(xpath2).click()
+        PrintRed("Close ORG")
+    except:
+        PrintRed("ORG pop up closed")
+        pass
+
+def pop_up_delete(xpath1, xpath2):
+    try:
+        Waits.WaitElementLoaded(3, xpath1)
+        PrintRed("Delete still show")
+        driver.find_element_by_xpath(xpath2).click()
+        PrintRed("Close pop up delete")
+    except:
+        PrintRed("Delete pop up closed")
+        pass
+
 def delete_folder_workdiary(input_name):
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["delete_button"])
     Logging("- Delete button")
@@ -89,6 +111,7 @@ def delete_folder_workdiary(input_name):
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click OK")
     time.sleep(3)
+    pop_up_delete("//div[@ng-click='close($event)']//h4[text()='Delete']", "//div[@ng-click='close($event)']//button[@class='close']")
 
     try:
         Waits.WaitElementLoaded(5, data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
@@ -140,6 +163,7 @@ def delete_manage_folder(task_name):
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click OK")
     time.sleep(2)
+    pop_up_delete("//div[@ng-click='close($event)']//h4[text()='Delete']", "//div[@ng-click='close($event)']//button[@class='close']")
 
     try:
         Waits.WaitElementLoaded(5,data["TASK"]["Task_Report"]["fol_name"] % str(task_name))
@@ -178,6 +202,7 @@ def set_recipients():
     Logging(">> Save user")
     Logging("=> Add recipients successfully")
     time.sleep(3)
+    pop_up_org("//div[@id='getReportTargetList' and contains(@class,'in')]//h4[text()='Organization']", "//div[@id='getReportTargetList']//button[@class='close']")
 
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][1])
     Logging("- Save recipients group")

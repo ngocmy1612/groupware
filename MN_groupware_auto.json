@@ -41,7 +41,7 @@
             "list_ORG": "//*[@id='getJournalShare']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getJournalShare']//div[@class='nav-search']//span//input",
             "select_user": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]",
-            "user_1": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]/span/span[2]",
+            "user_1": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[3]/span/span[2]",
             "plus_button": "//*[@id='getJournalShare']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "notify_save": "//h4[contains(.,' Saved')]",
             "reload_folder": "//*[@id='diary_setting_form']/div[1]/div[1]/div[2]/a[3]",
@@ -76,7 +76,7 @@
             "list_ORG": "//*[@id='getReportTargetList']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getReportTargetList']//div[@class='nav-search']//span//input",
             "select_user": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]",
-            "user_1": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]/span/span[2]",
+            "user_1": "//*[@id='getReportTargetList']//div[@class='widget-body']//ul[@class='dynatree-container']/li[3]/span/span[2]",
             "plus_button": "//*[@id='getReportTargetList']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "button_save": [
                 "//*[@id='getReportTargetList']/div/div/div[3]/button[1]",
@@ -137,7 +137,7 @@
         "ADMIN":{
             "admin": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//a[@data-ng-click='showAdminSetting()']/b",
             "set_manager": "//span[contains(.,'Set Manager')]",
-            "select_dept": "//div[@id='getManagerList']//ul[@class='dynatree-container']/li[3]/span//a",
+            "select_dept": "//div[@id='getManagerList']//ul[@class='dynatree-container']/li[4]/span//a",
             "select_manager": "//*[@id='expense-form-write']/div/label/button",
             "total_list": "//*[@id='ngw.expense.paymentMethod']/expense-admin-container-view//div[@class='pull-left']",
             "list_ORG": "//*[@id='getManagerList']/div/div/div[2]/div[1]/div[2]/div/div/ul",
