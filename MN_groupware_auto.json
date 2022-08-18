@@ -20,6 +20,8 @@
     "auto_save_all": "//h4[@class='ui-pnotify-title']//a[2]/i",
 
     "loading_dialog": "//div[@class='loading-dialog hide']",
+    "title_popup": "//div[@ng-click='close($event)']//h4",
+    "close_popup": "//div[@ng-click='close($event)']//button[@class='close']",
 
     "TASK":{
         "Work_Diary":{
@@ -28,7 +30,8 @@
                 "//*[@id='diary_setting_form']/div[2]/div[3]/button[1]",
                 "//button[contains(@data-ng-click,'saveForm()')]"
             ],
-            
+            "org_popup": "//div[@id='getJournalShare' and contains(@class,'in')]//h4[text()='Organization']",
+            "close_org_popup": "//div[@id='getJournalShare']//button[@class='close']",
             "menu_task": "//div[@id='main-navi']/nav-menu-react/nav/a[contains(@data-name, 'task,Task')]/span",
             "setting_workdiary": "//span[contains(.,'Settings ')]",
             "diary_setting_form": "//*[@id='diary_setting_form']",
@@ -57,6 +60,8 @@
                 "//*[@id='ngw.task.reportsetting']/div/div/div[2]/div/div[2]/div[2]/div/form/div[2]/div/input",
                 "//*[@id='ngw.task.setting']/div/div/div[2]/div/div[2]/div[2]/div/form/div[2]/div/input"
             ],
+            "org_popup": "//div[@id='getReportTargetList' and contains(@class,'in')]//h4[text()='Organization']",
+            "close_org_popup": "//div[@id='getReportTargetList']//button[@class='close']",
             "task_tab_content": "//*[@id='task-tab-content']",
             "folder_task": "Folder Task: ",
             "notify_save": "//h4[contains(.,' Saved')]",
@@ -135,8 +140,11 @@
         },
         
         "ADMIN":{
+            "admin_account": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li/a[contains(@data-ng-click,'showAdminSetting()')]",
             "admin": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//a[@data-ng-click='showAdminSetting()']/b",
             "set_manager": "//span[contains(.,'Set Manager')]",
+            "org_popup": "//div[@id='getManagerList' and contains(@class,'in')]//h4[text()='Organization']",
+            "close_org_popup": "//div[@id='getManagerList']//button[@class='close']",
             "select_dept": "//div[@id='getManagerList']//ul[@class='dynatree-container']/li[4]/span//a",
             "select_manager": "//*[@id='expense-form-write']/div/label/button",
             "total_list": "//*[@id='ngw.expense.paymentMethod']/expense-admin-container-view//div[@class='pull-left']",

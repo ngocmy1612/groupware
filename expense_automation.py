@@ -45,6 +45,7 @@ def delete_folder(parent_name):
     Logging("- Click button OK")
     Waits.Wait10s_ElementLoaded(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
     time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     try: 
         driver.find_element_by_xpath(data["EXPENSE"]["SETTINGS"]["last_list_folder"] % parent_name)
@@ -124,6 +125,8 @@ def set_manager():
     Logging(">> Add button")
     Commands.ClickElement(data["EXPENSE"]["button_save"][0])
     Logging(">> Save user")
+    time.sleep(2)
+    Functions.pop_up(data["EXPENSE"]["ADMIN"]["org_popup"], data["EXPENSE"]["ADMIN"]["close_org_popup"])
     Commands.ClickElement(data["EXPENSE"]["button_save"][1])
     Logging("=> Save Manager")
     time.sleep(2)
@@ -182,6 +185,7 @@ def delete_manager(list_search_number):
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     list_delete_update = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["total_list"])
     list_delete_update_number = int(list_delete_update.text.split(" ")[1])
@@ -241,6 +245,7 @@ def add_purpose():
         Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
         time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
 
         delete_purpose()
     except WebDriverException:
@@ -265,6 +270,8 @@ def delete_purpose():
     time.sleep(2)
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
+    time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
@@ -308,6 +315,8 @@ def payment_method():
         TestCase_LogResult(**data["testcase_result"]["expense"]["payment_method"]["pass"])
         Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
+        time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
     except WebDriverException:
         Commands.ClickElement("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]")
         Logging("- Click back to list")
@@ -338,6 +347,8 @@ def delete_payment_method(payment_method_name,payment_counter_number):
     Logging("- Delete Payment method")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
+    time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
@@ -390,6 +401,8 @@ def credit_card():
         TestCase_LogResult(**data["testcase_result"]["expense"]["credit_card"]["pass"])
         Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
+        time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
     except WebDriverException:
         Commands.ClickElement("//*[@id='ngw.expense.paymentMethod']//button[contains(@data-ng-click, 'goList($event)')]")
         Logging("- Click back to list")
@@ -417,6 +430,8 @@ def delete_credit_card(owner,credit_counter_number):
     Logging("- Delete Credit card")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
+    time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
@@ -480,6 +495,8 @@ def currency():
         Logging("=> " + success.text)
         Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up")
+        time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
     except WebDriverException:
         driver.find_element_by_xpath("//h4[contains(., 'Error')]")
         error = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["pop_up"])
@@ -487,6 +504,8 @@ def currency():
         Logging("=> " + error.text)
         Commands.ClickElement(data["EXPENSE"]["ADMIN"]["close"])
         Logging("- Close pop up error")
+        time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
         driver.close()
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
@@ -538,6 +557,8 @@ def delete_currency(currency_label_name):
     Logging("- Delete currency")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["button_OK"])
     Logging("- Click OK")
+    time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     Waits.Wait20s_ElementLoaded(data["loading_dialog"])
     time.sleep(2)
@@ -560,7 +581,7 @@ def expense_page(domain_name):
     WebDriverWait(driver, 40).until(EC.presence_of_element_located((By.XPATH, "//*[@id='expense-list']")))
 
     try:
-        admin_account = driver.find_element_by_xpath("//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li/a[contains(@data-ng-click,'showAdminSetting()')]")
+        admin_account = driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["admin_account"])
         admin_account = True
         Logging("ADMIN ACCOUNT")
     except:

@@ -41,7 +41,7 @@ def work_diary():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][1])
     Logging("- Save folder")
     time.sleep(3)
-    pop_up_org("//div[@id='getJournalShare' and contains(@class,'in')]//h4[text()='Organization']", "//div[@id='getJournalShare']//button[@class='close']")
+    Functions.pop_up(data["TASK"]["Work_Diary"]["org_popup"], data["TASK"]["Work_Diary"]["close_org_popup"])
 
     time.sleep(2)
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
@@ -84,26 +84,6 @@ def share_folder():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["button_save"][0])
     Logging("- Save user")
 
-def pop_up_org(xpath1, xpath2):
-    try:
-        Waits.WaitElementLoaded(3,xpath1)
-        PrintRed("ORG still show")
-        driver.find_element_by_xpath(xpath2).click()
-        PrintRed("Close ORG")
-    except:
-        PrintRed("ORG pop up closed")
-        pass
-
-def pop_up_delete(xpath1, xpath2):
-    try:
-        Waits.WaitElementLoaded(3, xpath1)
-        PrintRed("Delete still show")
-        driver.find_element_by_xpath(xpath2).click()
-        PrintRed("Close pop up delete")
-    except:
-        PrintRed("Delete pop up closed")
-        pass
-
 def delete_folder_workdiary(input_name):
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["delete_button"])
     Logging("- Delete button")
@@ -111,7 +91,7 @@ def delete_folder_workdiary(input_name):
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click OK")
     time.sleep(3)
-    pop_up_delete("//div[@ng-click='close($event)']//h4[text()='Delete']", "//div[@ng-click='close($event)']//button[@class='close']")
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     try:
         Waits.WaitElementLoaded(5, data["TASK"]["Work_Diary"]["fol_name"] % str(input_name))
@@ -163,7 +143,7 @@ def delete_manage_folder(task_name):
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click OK")
     time.sleep(2)
-    pop_up_delete("//div[@ng-click='close($event)']//h4[text()='Delete']", "//div[@ng-click='close($event)']//button[@class='close']")
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     try:
         Waits.WaitElementLoaded(5,data["TASK"]["Task_Report"]["fol_name"] % str(task_name))
@@ -202,7 +182,7 @@ def set_recipients():
     Logging(">> Save user")
     Logging("=> Add recipients successfully")
     time.sleep(3)
-    pop_up_org("//div[@id='getReportTargetList' and contains(@class,'in')]//h4[text()='Organization']", "//div[@id='getReportTargetList']//button[@class='close']")
+    Functions.pop_up(data["TASK"]["Task_Report"]["org_popup"], data["TASK"]["Task_Report"]["close_org_popup"])
 
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][1])
     Logging("- Save recipients group")
@@ -268,6 +248,8 @@ def write_task_report(input_group):
         Logging(">> Add button")
         Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_save"][0])
         Logging(">> Save user")
+        time.sleep(2)
+        Functions.pop_up(data["TASK"]["Task_Report"]["org_popup"], data["TASK"]["Task_Report"]["close_org_popup"])
         
     frame_task = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@class='tox-edit-area__iframe']")))
     driver.switch_to.frame(frame_task)
@@ -281,6 +263,9 @@ def write_task_report(input_group):
     Logging("- Save Task Report")
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click button OK")
+    time.sleep(3)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
+
     try:
         WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, "//*[@id='report-view']")))
         time.sleep(3)
@@ -302,6 +287,7 @@ def delete_recipients(input_group):
     Commands.Wait10s_ClickElement(data["TASK"]["Task_Report"]["button_OK"])
     Logging("- Click OK")
     time.sleep(3)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
 def create_folder():
     Logging("- Create folder to add auto-sort")
@@ -359,6 +345,7 @@ def create_auto_sort():
     Commands.Wait10s_ClickElement("//button[contains(.,'OK')]")
     Logging("- Click button OK")
     time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
     try:
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//td[contains(., '%s')]" % name_sort)))
         Logging("=> Delete Auto_sort Fail")

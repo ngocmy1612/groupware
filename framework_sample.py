@@ -337,3 +337,13 @@ class Functions():
             return True
         except WebDriverException:
             return False
+
+    def pop_up(xpath1, xpath2):
+        try:
+            Waits.WaitElementLoaded(3,xpath1)
+            PrintRed("Pop up still show")
+            driver.find_element_by_xpath(xpath2).click()
+            PrintRed("Close Pop up")
+        except:
+            PrintRed("Pop up closed")
+            pass
