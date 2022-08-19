@@ -94,6 +94,7 @@ def setting_my_board():
 
     Commands.ClickElement(data["BOARD"]["SETTING"]["close_infor"])
     time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     return my_folder_name,x
 
@@ -154,7 +155,6 @@ def write_execution(my_folder_name,x):
             write_board(my_folder_name,category_board,x)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add manage category fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["add_category"]["fail"])
@@ -218,6 +218,7 @@ def delete_my_folder(my_folder_name):
     time.sleep(2)
     Commands.ClickElement(data["BOARD"]["SETTING"]["delete_folder"])
     Commands.ClickElement(data["BOARD"]["SETTING"]["button_OK"])
+    
     try:
         infor_delete = Waits.Wait10s_ElementLoaded(data["BOARD"]["SETTING"]["information"][1])
         time.sleep(3)
@@ -225,6 +226,8 @@ def delete_my_folder(my_folder_name):
             Logging("=> Delete folder successfully")
             TestCase_LogResult(**data["testcase_result"]["board"]["delete_my_folder"]["pass"])
             Commands.ClickElement(data["BOARD"]["SETTING"]["close_infor"])
+            time.sleep(2)
+            Functions.pop_up(data["title_popup"], data["close_popup"])
     except:
         Logging("=> Delete folder fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["delete_my_folder"]["fail"])
@@ -239,7 +242,6 @@ def board_settings():
         parent_execution()
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
 def parent_folder():
     #Create parent folder
@@ -272,6 +274,8 @@ def parent_folder():
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     Commands.ClickElement(data["BOARD"]["save"][1])
     Logging("- Save ORG")
+    time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     try:
         share_user = driver.find_element_by_xpath(data["BOARD"]["share_user"])
@@ -316,7 +320,6 @@ def parent_execution():
             sub_folder(parent_folder_name,x)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Create parent folder fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["add_parent_folder"]["fail"])
@@ -342,19 +345,16 @@ def sub_folder(parent_folder_name,x):
             sub_execution()
         except:
             Logging(">>>> Cannot continue execution")
-            pass
 
         try:
             check_per(parent_folder_name,x)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
 
         try:
             board_folder_list(parent_folder_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     except:
         Commands.ClickElement("//*[@id='board-folder-tree']//li[starts-with(@id,'han-board-folder')]//ul/li[1]")
         Logging("- Select different parent folder")
@@ -407,7 +407,6 @@ def sub_execution():
             delete_sub(sub_folder_name)
         except:
             Logging(">>>> Cannot continue execution")
-            pass
     else:
         Logging("=> Add sub folder Fail")
         TestCase_LogResult(**data["testcase_result"]["board"]["add_sub_folder"]["fail"])
@@ -428,8 +427,9 @@ def delete_sub(sub_folder_name):
     Commands.ClickElement(data["BOARD"]["button_OK"])
     Commands.Wait10s_ClickElement(data["BOARD"]["close"])
     Logging("- Delete sub-folder successfully")
-    Logging(" ")
     time.sleep(2)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
+    Logging(" ")
 
 def board_folder_list(parent_folder_name):
     Commands.ClickElement(data["BOARD"]["hide_company_board"])
@@ -456,7 +456,8 @@ def board_folder_list(parent_folder_name):
         Commands.ClickElement(data["BOARD"]["delete_folder"][1])
         Logging("- Delete parent folder")
         Commands.ClickElement(data["BOARD"]["button_OK"])
-        time.sleep(4)
+        time.sleep(2)
+        Functions.pop_up(data["title_popup"], data["close_popup"])
 
         list_counter_update = driver.find_element_by_xpath(data["BOARD"]["total_list"])
         Logging("=> Total list number update: " + list_counter_update.text)

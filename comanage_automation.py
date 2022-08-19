@@ -41,8 +41,10 @@ def create_project():
 
     Commands.ClickElement(data["COMANAGE"]["Kanban_Project"])
     Commands.ClickElement(data["COMANAGE"]["save_project"])
+    time.sleep(2)
+    Functions.pop_up(data["COMANAGE"]["title_popup"], data["COMANAGE"]["close_popup"])
 
-    infor = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["wait_bussiness"])))
+    infor = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, data["COMANAGE"]["wait_bussiness"])))
     if infor.is_displayed():
         Logging(">> Create new project Successfully")
     else:
@@ -59,6 +61,7 @@ def create_project():
     Commands.ClickElement(data["COMANAGE"]["button_add"])
     Commands.ClickElement(data["COMANAGE"]["save_leader"])
     time.sleep(3)
+    Functions.pop_up(data["org_popup"], data["org_close_popup"])
     Commands.ClickElement(data["COMANAGE"]["board"])
 
 def run_project(admin_account):
@@ -128,6 +131,7 @@ def insert_work():
     Commands.ClickElement(data["COMANAGE"]["close_detail_work"])
     Logging("- Close detail work")
     time.sleep(2)
+    Functions.pop_up(data["COMANAGE"]["detail_popup"], data["COMANAGE"]["close_detail_popup"])
     Commands.ClickElement(data["COMANAGE"]["close_search"])
     Logging("- Close search work")
 
@@ -141,37 +145,36 @@ def update_work():
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
+
     try:
         update_work_type()
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
+
     try:
         update_assigned_to()
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
+
     try:
         update_priority()
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
+
     try:
         update_date()
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
+
     try:
         write_comment() 
         Logging("")
     except:
         Logging(">>>> Cannot continue excution")
-        pass
 
 def update_status():
     #Select status
@@ -179,7 +182,6 @@ def update_status():
     Commands.ClickElement(data["COMANAGE"]["status"])
     Logging("- Update status")
     status_list = int(len(driver.find_elements_by_xpath(data["COMANAGE"]["status_list"])))
-    
     
     list_status = []
     i=0

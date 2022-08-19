@@ -202,6 +202,12 @@
         "priority_label2": "//div[@id='priority_tooltip']/following-sibling::div//li/a/span[contains(., '",
         "filter_work_select": "//div[@class='wrap-iframe']//button[contains(@class, 'member') and contains(., '",
         "wait_page": "//*[starts-with(@id,'mCSB') and contains(@id,'container')]//li[contains(@data-category,'projectnew')]//input",
+        "title_popup": "//div[@ng-click='close($event)']//h1[text()='Create Project']",
+        "close_popup": "//div[@ng-click='close($event)']//button[@class='close']",
+        "org_popup": "//div[starts-with(@id,'getUserProjectleaders') and contains(@class,'in')]//h4",
+        "org_close_popup": "//div[starts-with(@id,'getUserProjectleaders') and contains(@class,'in')]//button[@class='close']",
+        "detail_popup": "//div[@ng-click='close($event)']//h1[text()='Details']",
+        "close_detail_popup": "//div[@ng-click='close($event)']//h1[text()='Details']/preceding-sibling::button",
 
         "show_more": "//span[contains(., 'Show more')]",
         "start_assign": "//div[@class='clearfix project-new-work']//div[3]//div[@class='input-edit dropdown-toggle']/span/span",

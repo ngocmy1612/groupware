@@ -346,4 +346,3 @@ class Functions():
             PrintRed("Close Pop up")
         except:
             PrintRed("Pop up closed")
-            pass

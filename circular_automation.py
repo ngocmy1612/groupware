@@ -68,6 +68,7 @@ def delete_folder(parent_name):
     Commands.Wait10s_ClickElement(data["CIRCULAR"]["button_OK"])
     Logging("- Click button OK")
     time.sleep(3)
+    Functions.pop_up(data["title_popup"], data["close_popup"])
 
     try:
         Waits.WaitElementLoaded(5,  data["CIRCULAR"]["folder_update"] % parent_name)
