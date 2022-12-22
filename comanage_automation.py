@@ -455,7 +455,7 @@ def filters_work_type():
         
 def co_manage(domain_name):
     Logging("================================================= CO-MANAGE =======================================================")
-    driver.get(domain_name + "/projectnew/project-folder/normal/0_0")
+    driver.get(domain_name + "/projectnew")
     Waits.Wait20s_ElementLoaded(data["COMANAGE"]["wait_page"])
 
     try:

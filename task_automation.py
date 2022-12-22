@@ -69,12 +69,17 @@ def share_folder():
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["share"])
     Logging("- Click button Share")
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["permit_write"])
-    Logging("- Select permit write")    
+    Logging("- Select permit write") 
 
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["invite_user"])
     Logging("- Invite user")
     Waits.Wait20s_ElementLoaded(data["TASK"]["Work_Diary"]["list_ORG"])
     Logging("- Organization list")
+    time.sleep(2)
+
+    search_user = driver.find_element_by_xpath("//*[@id='getJournalShare']//div[@class='nav-search']//input")
+    search_user.send_keys(data["user_name"])
+    search_user.send_keys(Keys.ENTER)
     time.sleep(2)
 
     Commands.Wait10s_ClickElement(data["TASK"]["Work_Diary"]["user_1"])

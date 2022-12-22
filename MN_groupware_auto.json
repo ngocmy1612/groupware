@@ -44,7 +44,7 @@
             "list_ORG": "//*[@id='getJournalShare']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getJournalShare']//div[@class='nav-search']//span//input",
             "select_user": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[2]",
-            "user_1": "//*[@id='getJournalShare']//div[@class='widget-body']//ul[@class='dynatree-container']/li[3]/span/span[2]",
+            "user_1": "//ul/li[3]//span[@class='custom-icon']/i[contains(@class,'blue')]/../following-sibling::a/../span[2]",
             "plus_button": "//*[@id='getJournalShare']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "notify_save": "//h4[contains(.,' Saved')]",
             "reload_folder": "//*[@id='diary_setting_form']/div[1]/div[1]/div[2]/a[3]",
@@ -150,7 +150,7 @@
             "total_list": "//*[@id='ngw.expense.paymentMethod']/expense-admin-container-view//div[@class='pull-left']",
             "list_ORG": "//*[@id='getManagerList']/div/div/div[2]/div[1]/div[2]/div/div/ul",
             "user_keyword": "//*[@id='getManagerList']//div[@class='nav-search']//span//input",
-            "user_1": "//div[@id='getManagerList']//ul/li//span[@class='custom-icon']/i[contains(@class,'blue')]/../following-sibling::a",
+            "user_1": "//div[@id='getManagerList']//ul/li//span[@class='custom-icon']/i[contains(@class,'blue')]/../following-sibling::a/../span[2]",
             "plus_button": "//*[@id='getManagerList']/div/div/div[2]/div[2]/div[1]/div/a[1]",
             "search": "//div[@class='nav-search list-search']//input",
             "button_OK": "//button[contains(@ng-click, 'ok()')]",
@@ -355,7 +355,7 @@
             "board_photo_type": "//*[@id='message-list']//board-photo-react-list//div[@class='img-overlay']",
             "board_list_type": "//*[@id='message-list']//board-react-list//div[@class='han-react-list']",
             "delete_folder": "//*[@id='board_setting_form']//a[@ng-click='delFolder()']",
-            "button_OK": "//button[@ng-click='ok()']"
+            "button_OK": "//div[@ng-click='close($event)']//button[@ng-click='ok()']"
         }
     },
 

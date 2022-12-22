@@ -117,8 +117,12 @@ def set_manager():
     Waits.Wait20s_ElementLoaded(data["EXPENSE"]["ADMIN"]["list_ORG"])
     Logging(">> Organization list")
     time.sleep(2)
-    driver.find_element_by_xpath(data["EXPENSE"]["ADMIN"]["select_dept"]).click()
+
+    search_user = driver.find_element_by_xpath("//*[@id='getManagerList']//div[@class='nav-search']//input")
+    search_user.send_keys(data["name_keyword"][1])
+    search_user.send_keys(Keys.ENTER)
     time.sleep(2)
+
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["user_1"])
     Logging(">> Select user")
     Commands.ClickElement(data["EXPENSE"]["ADMIN"]["plus_button"])
