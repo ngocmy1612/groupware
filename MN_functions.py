@@ -126,8 +126,8 @@ def TestCase_LogResult(menu, sub_menu, testcase, status, description, tester):
 
     wb.save(testcase_log)
 
-def access_qa(domain):
-    driver.get(domain)
+def access_qa(domain_name):
+    driver.get(domain_name)
     print("- Access login page")
     driver.find_element_by_id("log-userid").send_keys(data["user_name"])
     print("- Input user ID")
